@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Epilogue:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #F5F2EB;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-inter: 'Inter', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
+  --font-syne: 'Syne', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-bodoni: 'Bodoni Moda', serif;
+  --font-jost: 'Jost', sans-serif;
+  --font-dm: 'DM Sans', sans-serif;
+  --font-epilogue: 'Epilogue', sans-serif;
+  --font-plex: 'IBM Plex Sans', sans-serif;
+  --font-chakra: 'Chakra Petch', sans-serif;
+  --font-rajdhani: 'Rajdhani', sans-serif;
+  --font-cinzel: 'Cinzel', serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-bebas: 'Bebas Neue', sans-serif;
+  --font-fraunces: 'Fraunces', serif;
+
+  /* Custom Breakpoints from requirements */
+  --breakpoint-mob-s: 320px;
+  --breakpoint-mob-m: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1366px;
+  --breakpoint-large: 1920px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4A373;
+  border-radius: 4px;
+}
+
+/* Mobile: prevent iOS text size adjustment and ensure tap highlights look clean */
+@media (pointer: coarse) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(212, 163, 115, 0.15);
+  }
+
+  /* Prevent zoom on input focus (iOS Safari) */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Safe area insets for notched devices (iPhone X+, etc.) */
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Reduced motion: disable all animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility: preserve 3D transforms for cover flow */
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
