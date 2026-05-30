@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function RewindScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -102,16 +103,23 @@ export default function RewindScroll() {
         >
           {/* AUTO-PLAYING IMAGES */}
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={currentImageIndex}
-              src={REWIND_DATA[currentImageIndex].src}
-              alt={REWIND_DATA[currentImageIndex].title}
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full object-cover rounded-[16px] mob-m:rounded-[24px] md:rounded-[1vw]"
-            />
+              className="absolute inset-0 w-full h-full rounded-[16px] mob-m:rounded-[24px] md:rounded-[1vw] overflow-hidden"
+            >
+              <Image
+                src={REWIND_DATA[currentImageIndex].src}
+                alt={REWIND_DATA[currentImageIndex].title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 85vw"
+                priority={currentImageIndex === 0} // Only preload the very first image
+                className="object-cover"
+              />
+            </motion.div>
           </AnimatePresence>
 
           {/* OVERLAY */}

@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const ARCHIVE_IMAGES = [
   { id: 1, src: "/archive/archive_1.jpeg", title: "Archive 1" },
@@ -162,10 +163,14 @@ export default function Archive3DCoverflow() {
                   style={{ opacity: filterOpacity }}
                 />
                 
-                <motion.img 
+                <Image 
                   src={img.src} 
                   alt={img.title} 
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 80vw, 50vw"
+                  // Prioritize loading the 3 images in the center of the array so they appear instantly
+                  priority={i >= 7 && i <= 11}
+                  className="object-cover"
                 />
                 
                 {/* Glass reflection for premium feel */}
