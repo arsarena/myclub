@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 const TEAM_MEMBERS = [
   { 
@@ -83,20 +85,25 @@ export default function CoreTeamAccordion() {
                 : "0.5");
             
             return (
-              <div 
+              <motion.div 
+                layout
+                transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
                 key={member.id}
-                // We use cubic-bezier for a very "heavy" and premium sliding feel
-                className="relative overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group border-b laptop:border-b-0 laptop:border-r border-white/5 last:border-b-0 laptop:last:border-r-0 cursor-pointer"
+                // Removed CSS transition-all since Framer Motion handles the layout animation now
+                className="relative overflow-hidden group border-b laptop:border-b-0 laptop:border-r border-white/5 last:border-b-0 laptop:last:border-r-0 cursor-pointer"
                 style={{ flex: flexSize }}
                 onMouseEnter={() => !isTouchDevice && setHoveredIndex(index)}
                 onMouseLeave={() => !isTouchDevice && setHoveredIndex(null)}
                 onClick={() => setHoveredIndex(hoveredIndex === index ? null : index)}
               >
                 {/* The Background Portrait */}
-                <img 
+                <Image 
                   src={member.image} 
                   alt={member.name}
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-center
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  priority={true} // Priority true since this is usually in the initial viewport or just below it
+                  className={`object-cover transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-center transform-gpu will-change-transform
                     ${!isHovered ? "grayscale" : "grayscale-0"}
                     ${!isAnyHovered 
                       ? "scale-[1.02]" 
@@ -151,7 +158,7 @@ export default function CoreTeamAccordion() {
                    
                    
                 </div>
-              </div>
+              </motion.div>
             )
           })}
        </div>
