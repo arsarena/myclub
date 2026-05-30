@@ -176,42 +176,40 @@ export default function Archive3DCoverflow() {
           className="absolute top-1/2 -translate-y-1/2 left-4 mob-m:left-6 right-4 mob-m:right-6 z-40 flex desktop:hidden items-center justify-between pointer-events-none"
         >
           {/* Previous Button */}
+          {activeIndex > 0 ? (
             <motion.button
               onClick={goToPrev}
               onTouchStart={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
               whileTap={{ scale: 0.85 }}
-              className={`pointer-events-auto w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 ${
-                activeIndex <= 0 
-                  ? 'bg-white/5 border-white/10 opacity-30 cursor-not-allowed' 
-                  : 'bg-white/10 border-white/20 active:bg-white/20 cursor-pointer'
-              }`}
-              disabled={activeIndex <= 0}
+              className="w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 bg-white/10 border-white/20 active:bg-white/20 cursor-pointer pointer-events-auto"
               aria-label="Previous image"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </motion.button>
+          ) : (
+            <div className="w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 pointer-events-none" />
+          )}
 
-            {/* Next Button */}
+          {/* Next Button */}
+          {activeIndex < ARCHIVE_IMAGES.length - 1 ? (
             <motion.button
               onClick={goToNext}
               onTouchStart={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
               whileTap={{ scale: 0.85 }}
-              className={`pointer-events-auto w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 ${
-                activeIndex >= ARCHIVE_IMAGES.length - 1
-                  ? 'bg-white/5 border-white/10 opacity-30 cursor-not-allowed' 
-                  : 'bg-white/10 border-white/20 active:bg-white/20 cursor-pointer'
-              }`}
-              disabled={activeIndex >= ARCHIVE_IMAGES.length - 1}
+              className="w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 bg-white/10 border-white/20 active:bg-white/20 cursor-pointer pointer-events-auto"
               aria-label="Next image"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </motion.button>
+          ) : (
+            <div className="w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 pointer-events-none" />
+          )}
           </div>
         
     </section>
