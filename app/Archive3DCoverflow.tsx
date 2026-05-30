@@ -30,8 +30,8 @@ export default function Archive3DCoverflow() {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [activeIndex, setActiveIndex] = useState(Math.floor(ARCHIVE_IMAGES.length / 2));
   
-  // Track normalized mouse/touch position (0 to 1)
-  const mouseX = useMotionValue(0.5); // Start at the middle
+  // Track normalized mouse/touch position (0 to 1). We must initialize to exactly the math required for the middle integer index.
+  const mouseX = useMotionValue(Math.floor(ARCHIVE_IMAGES.length / 2) / (ARCHIVE_IMAGES.length - 1));
   
   // Apply a spring for buttery smooth interpolation when the mouse moves
   const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 20 });
@@ -57,6 +57,10 @@ export default function Archive3DCoverflow() {
   }, []);
   
   const handleMouseMove = (e: React.MouseEvent) => {
+    // Ignore synthesized mouse movements on touch devices to prevent overriding the buttons
+    // Also ignore physical mouse movements if window < 1366px, because the arrow buttons are active and they will fight!
+    if (isTouchDevice || window.innerWidth < 1366) return;
+    
     // Convert clientX to a 0-1 value across the screen width
     const normalized = e.clientX / window.innerWidth;
     mouseX.set(normalized);
@@ -89,8 +93,8 @@ export default function Archive3DCoverflow() {
     <section 
       id="archive"
       onMouseMove={handleMouseMove}
-      // Reduced height on mobile/tablet, full height on laptop
-      className="relative w-full h-[70vh] tablet:h-[80vh] laptop:h-[100vh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
+      // Reduced height on mobile/tablet, full height on desktop
+      className="relative w-full h-[70vh] tablet:h-[80vh] desktop:h-[100vh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
       style={{ perspective: "1500px" }}
     >
         
@@ -99,11 +103,11 @@ export default function Archive3DCoverflow() {
         <div className="absolute bottom-1/4 left-1/4 w-[350px] mob-m:w-[500px] h-[350px] mob-m:h-[500px] bg-[#2A2A2A]/5 rounded-full blur-[80px] mob-m:blur-[100px] pointer-events-none" />
 
         {/* Header */}
-        <div className="absolute top-6 tablet:top-12 left-0 w-full z-40 pointer-events-none text-center">
-          <h2 className="font-bebas text-4xl mob-m:text-5xl tablet:text-7xl desktop:text-8xl text-white/90 tracking-tight drop-shadow-sm">
-            Archive
+        <div className="absolute top-0 left-0 desktop:top-12 desktop:left-12 z-50 pointer-events-none desktop:mix-blend-difference text-white px-4 mob-m:px-6 pt-4 pb-2 mob-m:pt-6 mob-m:pb-4 desktop:p-0 w-full desktop:w-auto text-left">
+          <h2 className="font-bebas text-3xl mob-m:text-4xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2 uppercase">
+            ARCHIVE
           </h2>
-          <p className="mt-1 mob-m:mt-2 font-inter text-white/50 text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.2em] mob-m:tracking-[0.3em] uppercase">
+          <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">
             {isTouchDevice ? "Tap to explore" : "Move cursor to explore"}
           </p>
         </div>
@@ -142,7 +146,7 @@ export default function Archive3DCoverflow() {
             return (
               <motion.div
                 key={img.id}
-                className="absolute w-[240px] mob-m:w-[280px] tablet:w-[420px] laptop:w-[640px] h-[135px] mob-m:h-[158px] tablet:h-[236px] laptop:h-[360px] rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
+                className="absolute w-[240px] mob-m:w-[280px] tablet:w-[560px] desktop:w-[640px] h-[135px] mob-m:h-[158px] tablet:h-[315px] desktop:h-[360px] rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
                 style={{
                   x,
                   rotateY,

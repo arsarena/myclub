@@ -22,11 +22,15 @@ export default function RewindScroll() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [showInfoOnMobile, setShowInfoOnMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
+    const check = () => {
+      setIsMobile(window.innerWidth < 1024);
+      setIsDesktop(window.innerWidth >= 1366);
+    };
     const checkTouch = () => setIsTouchDevice(
       window.matchMedia("(pointer: coarse)").matches || 
       ('ontouchstart' in window) ||
@@ -59,8 +63,8 @@ export default function RewindScroll() {
   // We natively render the container at its massive 85vw/85vh size so the browser loads the full high-res image.
   // Then we start it scaled down to 47.05% (which visually looks like 40vw/40vh).
   // This prevents any pixelation when expanding!
-  // On mobile: start at 60% for a less aggressive zoom effect (saves perf)
-  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.6, 1] : [0.4705, 1]);
+  // On mobile: no scale at all, just render at full size
+  const scale = useTransform(scrollYProgress, [0, 1], isDesktop ? [0.4705, 1] : [1, 1]);
 
   // Show info overlay = hover on desktop, always-visible on mobile
   const shouldShowInfo = isTouchDevice ? showInfoOnMobile : isHovered;
@@ -72,11 +76,11 @@ export default function RewindScroll() {
   };
 
   return (
-    // .zoom-section equivalent: 220vh to allow plenty of scroll distance
-    <section id="rewind" ref={containerRef} className="relative h-[220vh] bg-[#050505] w-full">
+    // .zoom-section equivalent: matching Archive height on mobile/tablet, 220vh on desktop
+    <section id="rewind" ref={containerRef} className="relative h-[70vh] tablet:h-[80vh] desktop:h-[220vh] bg-[#050505] w-full">
       
-      {/* .sticky-wrapper equivalent: Freezes the content in place while you scroll */}
-      <div className="sticky top-0 w-full h-screen flex flex-col laptop:items-center laptop:justify-center overflow-hidden">
+      {/* .sticky-wrapper equivalent: Freezes the content in place on desktop */}
+      <div className="desktop:sticky top-0 w-full h-[70vh] tablet:h-[80vh] desktop:h-screen flex flex-col laptop:items-center laptop:justify-center overflow-hidden">
         
         {/* Website Personality: Floating Glassmorphic Orbs behind the zoom using the Core Brand Color */}
         <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-[#D4A373]/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-70" />
@@ -94,7 +98,7 @@ export default function RewindScroll() {
           onMouseEnter={() => !isTouchDevice && setIsHovered(true)}
           onMouseLeave={() => !isTouchDevice && setIsHovered(false)}
           onClick={handleTap}
-          className="relative flex-1 laptop:flex-none self-center w-[92vw] mob-m:w-[88vw] tablet:w-[85vw] laptop:h-[85vh] rounded-[24px] mob-m:rounded-[32px] tablet:rounded-[48px] laptop:rounded-[2vw] overflow-hidden will-change-transform cursor-pointer shadow-[0_0_50px_rgba(212,163,115,0.1)] mb-4 laptop:mb-0"
+          className="relative my-auto laptop:m-0 self-center w-[92vw] mob-m:w-[88vw] tablet:w-[85vw] aspect-video laptop:aspect-auto laptop:h-[85vh] rounded-[24px] mob-m:rounded-[32px] tablet:rounded-[48px] laptop:rounded-[2vw] overflow-hidden will-change-transform cursor-pointer shadow-[0_0_50px_rgba(212,163,115,0.1)]"
         >
           {/* AUTO-PLAYING IMAGES */}
           <AnimatePresence mode="wait">
