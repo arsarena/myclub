@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const ARCHIVE_IMAGES = [
@@ -28,6 +28,7 @@ export default function Archive3DCoverflow() {
   const [spacing, setSpacing] = useState(400);
   const [isMobile, setIsMobile] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(Math.floor(ARCHIVE_IMAGES.length / 2));
   
   // Track normalized mouse/touch position (0 to 1)
   const mouseX = useMotionValue(0.5); // Start at the middle
@@ -61,25 +62,35 @@ export default function Archive3DCoverflow() {
     mouseX.set(normalized);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    if (touch) {
-      const normalized = touch.clientX / window.innerWidth;
-      mouseX.set(normalized);
-    }
-  };
-
   // Map mouse progress (0 to 1) to an active float index (0 to N-1)
   const activeIndexFloat = useTransform(smoothMouseX, [0, 1], [0, ARCHIVE_IMAGES.length - 1]);
+
+  // Track the closest active index for arrow button state
+  useMotionValueEvent(activeIndexFloat, "change", (latest) => {
+    setActiveIndex(Math.round(latest));
+  });
+
+  // Arrow button handlers — jump to prev/next image
+  const goToPrev = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) e.stopPropagation();
+    const newIndex = Math.max(0, activeIndex - 1);
+    const normalized = newIndex / (ARCHIVE_IMAGES.length - 1);
+    mouseX.set(normalized);
+  };
+
+  const goToNext = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) e.stopPropagation();
+    const newIndex = Math.min(ARCHIVE_IMAGES.length - 1, activeIndex + 1);
+    const normalized = newIndex / (ARCHIVE_IMAGES.length - 1);
+    mouseX.set(normalized);
+  };
 
   return (
     <section 
       id="archive"
       onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
-      onTouchStart={handleTouchMove}
-      // Standard 100vh section since we no longer need scroll height
-      className="relative w-full h-[100vh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
+      // Reduced height on mobile/tablet, full height on laptop
+      className="relative w-full h-[70vh] tablet:h-[80vh] laptop:h-[100vh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
       style={{ perspective: "1500px" }}
     >
         
@@ -93,13 +104,13 @@ export default function Archive3DCoverflow() {
             Archive
           </h2>
           <p className="mt-1 mob-m:mt-2 font-inter text-white/50 text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.2em] mob-m:tracking-[0.3em] uppercase">
-            {isTouchDevice ? "Swipe to explore" : "Move cursor to explore"}
+            {isTouchDevice ? "Tap to explore" : "Move cursor to explore"}
           </p>
         </div>
 
         {/* Cover Flow Carousel */}
         <div 
-          className="relative w-full h-[40vh] mob-m:h-[45vh] tablet:h-[60vh] flex items-center justify-center transform-style-3d mt-8 mob-m:mt-12 cursor-none"
+          className="relative w-full h-[40vh] mob-m:h-[45vh] tablet:h-[60vh] flex items-center justify-center transform-style-3d cursor-none"
           data-cursor="DRAG"
         >
           {ARCHIVE_IMAGES.map((img, i) => {
@@ -159,6 +170,49 @@ export default function Archive3DCoverflow() {
             );
           })}
         </div>
+
+        {/* Arrow Navigation Buttons — mobile and tablet only */}
+        <div 
+          className="absolute top-1/2 -translate-y-1/2 left-4 mob-m:left-6 right-4 mob-m:right-6 z-40 flex desktop:hidden items-center justify-between pointer-events-none"
+        >
+          {/* Previous Button */}
+            <motion.button
+              onClick={goToPrev}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              whileTap={{ scale: 0.85 }}
+              className={`pointer-events-auto w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 ${
+                activeIndex <= 0 
+                  ? 'bg-white/5 border-white/10 opacity-30 cursor-not-allowed' 
+                  : 'bg-white/10 border-white/20 active:bg-white/20 cursor-pointer'
+              }`}
+              disabled={activeIndex <= 0}
+              aria-label="Previous image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </motion.button>
+
+            {/* Next Button */}
+            <motion.button
+              onClick={goToNext}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              whileTap={{ scale: 0.85 }}
+              className={`pointer-events-auto w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 rounded-full backdrop-blur-xl border shadow-lg flex items-center justify-center transition-all duration-300 ${
+                activeIndex >= ARCHIVE_IMAGES.length - 1
+                  ? 'bg-white/5 border-white/10 opacity-30 cursor-not-allowed' 
+                  : 'bg-white/10 border-white/20 active:bg-white/20 cursor-pointer'
+              }`}
+              disabled={activeIndex >= ARCHIVE_IMAGES.length - 1}
+              aria-label="Next image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/70">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </motion.button>
+          </div>
         
     </section>
   );
