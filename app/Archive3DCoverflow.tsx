@@ -147,7 +147,7 @@ export default function Archive3DCoverflow() {
             return (
               <motion.div
                 key={img.id}
-                className="absolute w-[240px] mob-m:w-[280px] tablet:w-[560px] desktop:w-[640px] h-[135px] mob-m:h-[158px] tablet:h-[315px] desktop:h-[360px] rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
+                className="absolute w-[80vw] mob-m:w-[75vw] tablet:w-[60vw] laptop:w-[640px] aspect-video rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
                 style={{
                   x,
                   rotateY,

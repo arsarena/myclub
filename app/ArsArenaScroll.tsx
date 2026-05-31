@@ -345,17 +345,17 @@ export default function ArsArenaScroll() {
         />
 
         {/* Text Overlays */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6 laptop:p-12">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           
           {/* 0% Scroll: Welcome to ARSARENA */}
           <motion.div 
             style={{ opacity: opacity0, y: y0, pointerEvents: pointerEvents0 }}
-            className="absolute left-1/2 -translate-x-1/2 laptop:translate-x-0 laptop:left-24 z-10 w-full px-4 mob-m:px-6 laptop:px-0 laptop:w-auto flex justify-center laptop:justify-start"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`max-w-sm tablet:max-w-xl p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[480px] laptop:w-[600px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -393,12 +393,12 @@ export default function ArsArenaScroll() {
           {/* Origins Card */}
           <motion.div 
             style={{ opacity: opacity30, y: y30, pointerEvents: pointerEvents30 }}
-            className="absolute left-1/2 -translate-x-1/2 laptop:translate-x-0 laptop:left-auto laptop:right-24 z-10 w-full px-4 mob-m:px-6 laptop:px-0 laptop:w-auto flex justify-center laptop:justify-end"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-auto tablet:right-12 laptop:right-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-end"
           >
             <TiltCardWrapper transformOrigin="right center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`max-w-sm tablet:max-w-lg p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -435,12 +435,12 @@ export default function ArsArenaScroll() {
           {/* Campus Canvas Card */}
           <motion.div 
             style={{ opacity: opacity60, y: y60, pointerEvents: pointerEvents60 }}
-            className="absolute left-1/2 -translate-x-1/2 laptop:translate-x-0 laptop:left-24 z-10 w-full px-4 mob-m:px-6 laptop:px-0 laptop:w-auto flex justify-center laptop:justify-start"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`max-w-sm tablet:max-w-lg p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -477,12 +477,12 @@ export default function ArsArenaScroll() {
           {/* More Than a Club Card */}
           <motion.div 
             style={{ opacity: opacity90, y: y90, pointerEvents: pointerEvents90 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full px-4 flex justify-center"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full flex justify-center"
           >
             <TiltCardWrapper transformOrigin="center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`max-w-sm tablet:max-w-xl p-5 mob-m:p-6 tablet:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[600px] laptop:w-[700px] p-5 mob-m:p-6 tablet:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
