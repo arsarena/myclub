@@ -8,7 +8,7 @@ const ARCHIVE_IMAGES = [
   { id: 1, src: "/archive/archive_1.jpeg", title: "Archive 1" },
   { id: 2, src: "/archive/archive_2.jpeg", title: "Archive 2" },
   { id: 3, src: "/archive/archive_3.jpeg", title: "Archive 3" },
-  { id: 4, src: "/archive/archive_4.jpeg", title: "Archive 4" },
+  { id: 4, src: "/archive/archive_16.jpeg", title: "Archive 4" },
   { id: 5, src: "/archive/archive_5.jpeg", title: "Archive 5" },
   { id: 6, src: "/archive/archive_6.jpeg", title: "Archive 6" },
   { id: 7, src: "/archive/archive_7.jpeg", title: "Archive 7" },
@@ -20,7 +20,7 @@ const ARCHIVE_IMAGES = [
   { id: 13, src: "/archive/archive_13.jpeg", title: "Archive 13" },
   { id: 14, src: "/archive/archive_14.jpeg", title: "Archive 14" },
   { id: 15, src: "/archive/archive_15.jpeg", title: "Archive 15" },
-  { id: 16, src: "/archive/archive_16.jpeg", title: "Archive 16" },
+  { id: 16, src: "/archive/archive_4.jpeg", title: "Archive 16" },
   { id: 17, src: "/archive/archive_17.jpeg", title: "Archive 17" },
   { id: 18, src: "/archive/archive_18.jpeg", title: "Archive 18" }
 ];
