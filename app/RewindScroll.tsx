@@ -87,9 +87,9 @@ export default function RewindScroll() {
         <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-[#D4A373]/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-70" />
         <div className="absolute bottom-[10%] right-[10%] w-[40vw] h-[40vw] bg-[#D4A373]/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-70" />
         
-        {/* Section Title — in-flow on mobile, absolute on desktop */}
-        <div className="relative laptop:absolute laptop:top-16 laptop:left-12 z-50 pointer-events-none laptop:mix-blend-difference text-white px-4 mob-m:px-6 pt-4 pb-2 mob-m:pt-6 mob-m:pb-4 laptop:p-0 flex-shrink-0">
-          <h2 className="font-bebas text-3xl mob-m:text-4xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2">REWIND</h2>
+        {/* Header */}
+        <div className="absolute top-0 left-0 laptop:top-12 laptop:left-12 z-50 pointer-events-none mix-blend-difference text-white px-5 mob-m:px-6 pt-6 mob-m:pt-8 tablet:pt-10 laptop:p-0 w-full laptop:w-auto text-left">
+          <h2 className="font-bebas text-4xl mob-m:text-5xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2 uppercase">REWIND</h2>
           <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">Step back in time</p>
         </div>
         

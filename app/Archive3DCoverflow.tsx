@@ -104,8 +104,8 @@ export default function Archive3DCoverflow() {
         <div className="absolute bottom-1/4 left-1/4 w-[350px] mob-m:w-[500px] h-[350px] mob-m:h-[500px] bg-[#2A2A2A]/5 rounded-full blur-[80px] mob-m:blur-[100px] pointer-events-none" />
 
         {/* Header */}
-        <div className="absolute top-0 left-0 desktop:top-12 desktop:left-12 z-50 pointer-events-none desktop:mix-blend-difference text-white px-4 mob-m:px-6 pt-4 pb-2 mob-m:pt-6 mob-m:pb-4 desktop:p-0 w-full desktop:w-auto text-left">
-          <h2 className="font-bebas text-3xl mob-m:text-4xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2 uppercase">
+        <div className="absolute top-0 left-0 laptop:top-12 laptop:left-12 z-50 pointer-events-none mix-blend-difference text-white px-5 mob-m:px-6 pt-6 mob-m:pt-8 tablet:pt-10 laptop:p-0 w-full laptop:w-auto text-left">
+          <h2 className="font-bebas text-4xl mob-m:text-5xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2 uppercase">
             ARCHIVE
           </h2>
           <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">

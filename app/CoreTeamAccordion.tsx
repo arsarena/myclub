@@ -63,9 +63,9 @@ export default function CoreTeamAccordion() {
   return (
     <section id="core" className="h-[100svh] w-full bg-[#050505] overflow-hidden relative cursor-crosshair flex flex-col">
        
-       {/* Section Header — sits in flow on mobile, absolute on desktop */}
-       <div className="relative laptop:absolute laptop:top-12 laptop:left-12 z-50 pointer-events-none laptop:mix-blend-difference text-white px-4 mob-m:px-6 pt-4 pb-2 mob-m:pt-6 mob-m:pb-4 laptop:p-0 bg-[#050505] laptop:bg-transparent flex-shrink-0">
-         <h2 className="font-bebas text-3xl mob-m:text-4xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2">THE CORE</h2>
+       {/* Header */}
+       <div className="absolute top-0 left-0 laptop:top-12 laptop:left-12 z-50 pointer-events-none mix-blend-difference text-white px-5 mob-m:px-6 pt-6 mob-m:pt-8 tablet:pt-10 laptop:p-0 w-full laptop:w-auto text-left">
+         <h2 className="font-bebas text-4xl mob-m:text-5xl tablet:text-7xl tracking-tight leading-none mb-0.5 mob-m:mb-1 tablet:mb-2 uppercase">THE CORE</h2>
          <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">The Visionaries of ARSARENA</p>
        </div>
 
