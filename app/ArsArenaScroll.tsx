@@ -327,7 +327,7 @@ export default function ArsArenaScroll() {
                 <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
                   {Math.round((imagesLoaded / TOTAL_FRAMES) * 100)}%
                 </div>
-                <div className="font-inter text-black/60 text-[7px] mob-m:text-[8px] laptop:text-[10px] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
+                <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
                   Preparing Canvas
                 </div>
               </div>

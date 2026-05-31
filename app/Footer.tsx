@@ -105,7 +105,7 @@ export default function Footer() {
                 backgroundColor: "#E5B887" 
               }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 mob-m:px-8 tablet:px-12 py-3.5 mob-m:py-4 bg-[#D4A373] text-black font-inter uppercase tracking-[0.12em] mob-m:tracking-[0.15em] text-[10px] mob-m:text-xs font-extrabold rounded-full transition-all duration-300 shadow-xl"
+              className="px-6 mob-m:px-8 tablet:px-12 py-3.5 mob-m:py-4 min-h-[44px] bg-[#D4A373] text-black font-inter uppercase tracking-[0.12em] mob-m:tracking-[0.15em] text-[0.625rem] mob-m:text-xs font-extrabold rounded-full transition-all duration-300 shadow-xl"
             >
               Submit Portfolio
             </motion.button>
@@ -114,14 +114,14 @@ export default function Footer() {
 
 
           {/* Legal / Copyright Footer */}
-          <div className="w-full flex flex-col tablet:flex-row justify-between items-center gap-2 mob-m:gap-3 mt-10 mob-m:mt-12 text-white/30 text-[9px] mob-m:text-[10px] tablet:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em]">
+          <div className="w-full flex flex-col tablet:flex-row justify-between items-center gap-2 mob-m:gap-3 mt-10 mob-m:mt-12 text-white/30 text-[0.5625rem] mob-m:text-[0.625rem] tablet:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em]">
              <p>© {new Date().getFullYear()} ARSARENA</p>
              <motion.a 
                href="https://www.instagram.com/arsarena_spec?igsh=MWZ6b29lNHEwN2hraA=="
                target="_blank"
                rel="noopener noreferrer"
                whileHover={{ color: "#D4A373" }}
-               className="transition-colors duration-300 cursor-pointer"
+               className="transition-colors duration-300 cursor-pointer w-11 h-11 flex items-center justify-center -mr-2"
              >
                <span className="sr-only">Instagram</span>
                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
