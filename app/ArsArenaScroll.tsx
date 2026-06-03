@@ -421,7 +421,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-0' : 'group-hover:opacity-0'}
                   `}>
                     <h2 className="font-playfair text-2xl mob-m:text-3xl tablet:text-6xl text-black/90 leading-tight">
-                      Origins
+                      The Spark
                     </h2>
                     <p className="mt-2 tablet:mt-4 font-inter text-sm mob-m:text-base tablet:text-lg text-black/70">
                       ARSARENA is a creative space where ideas come to life. Built on a passion for art and expression, we bring together students who love to create, design, and inspire.
