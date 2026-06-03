@@ -364,7 +364,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/welcome-hover.jpg" 
+                      src="/about%20us/welcome-hover.jpg" 
                       alt="ARSARENA Event" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -407,7 +407,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/origins-hover.jpg" 
+                      src="/about%20us/origins-hover.jpg" 
                       alt="Origins" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -449,7 +449,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/campus-hover.jpg" 
+                      src="/about%20us/campus-hover.jpg" 
                       alt="Campus Canvas" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -491,7 +491,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/club-hover.jpg" 
+                      src="/about%20us/club-hover.jpg" 
                       alt="More Than a Club" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
