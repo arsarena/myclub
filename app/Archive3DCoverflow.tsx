@@ -5,24 +5,23 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const ARCHIVE_IMAGES = [
-  { id: 1, src: "/archive/archive_1.jpeg", title: "Archive 1" },
-  { id: 2, src: "/archive/archive_2.jpeg", title: "Archive 2" },
-  { id: 3, src: "/archive/archive_3.jpeg", title: "Archive 3" },
-  { id: 4, src: "/archive/archive_16.jpeg", title: "Archive 4" },
-  { id: 5, src: "/archive/archive_5.jpeg", title: "Archive 5" },
-  { id: 6, src: "/archive/archive_6.jpeg", title: "Archive 6" },
-  { id: 7, src: "/archive/archive_7.jpeg", title: "Archive 7" },
-  { id: 8, src: "/archive/archive_8.jpeg", title: "Archive 8" },
-  { id: 9, src: "/archive/archive_9.jpeg", title: "Archive 9" },
-  { id: 10, src: "/archive/archive_10.jpeg", title: "Archive 10" },
-  { id: 11, src: "/archive/archive_11.jpeg", title: "Archive 11" },
-  { id: 12, src: "/archive/archive_12.jpeg", title: "Archive 12" },
-  { id: 13, src: "/archive/archive_13.jpeg", title: "Archive 13" },
-  { id: 14, src: "/archive/archive_14.jpeg", title: "Archive 14" },
-  { id: 15, src: "/archive/archive_15.jpeg", title: "Archive 15" },
-  { id: 16, src: "/archive/archive_4.jpeg", title: "Archive 16" },
-  { id: 17, src: "/archive/archive_17.jpeg", title: "Archive 17" },
-  { id: 18, src: "/archive/archive_18.jpeg", title: "Archive 18" }
+  { id: 1, src: "https://static.wixstatic.com/media/c1ad4c_18773a6c77e0400e8392add65bda0e3d~mv2.jpeg", title: "Archive 1" },
+  { id: 2, src: "https://static.wixstatic.com/media/c1ad4c_27e0211900ed4a35b3fe7830a7c545cf~mv2.jpeg", title: "Archive 2" },
+  { id: 3, src: "https://static.wixstatic.com/media/c1ad4c_27e0211900ed4a35b3fe7830a7c545cf~mv2.jpeg", title: "Archive 3" },
+  { id: 4, src: "https://static.wixstatic.com/media/c1ad4c_660284be3d3f49cc8a9ab740b95ac9c0~mv2.jpeg", title: "Archive 4" },
+  { id: 5, src: "https://static.wixstatic.com/media/c1ad4c_b2656089f0234c0a8f0f2650c2e99c04~mv2.jpeg", title: "Archive 5" },
+  { id: 6, src: "https://static.wixstatic.com/media/c1ad4c_2d9023aad347416da2ea7c296720647c~mv2.jpeg", title: "Archive 6" },
+  { id: 7, src: "https://static.wixstatic.com/media/c1ad4c_88e53b20b14940009bea892062bb6f88~mv2.jpeg", title: "Archive 7" },
+  { id: 8, src: "https://static.wixstatic.com/media/c1ad4c_41b33a69bbc9494daebded9161b1fc3f~mv2.jpeg", title: "Archive 8" },
+  { id: 9, src: "https://static.wixstatic.com/media/c1ad4c_1af6586f9fe74ab3b55230e037fd1272~mv2.jpeg", title: "Archive 9" },
+  { id: 10, src: "https://static.wixstatic.com/media/c1ad4c_22cb42dafca3417989a0488b26e66e44~mv2.jpeg", title: "Archive 10" },
+  { id: 11, src: "https://static.wixstatic.com/media/c1ad4c_bf22fc3fa6414bbeae1559195e4f1709~mv2.jpg", title: "Archive 11" },
+  { id: 12, src: "https://static.wixstatic.com/media/c1ad4c_a245353a22fe48f3acff0bd080a556d7~mv2.jpeg", title: "Archive 12" },
+  { id: 13, src: "https://static.wixstatic.com/media/c1ad4c_2979ed0f4a50416dadd68552982b0ea9~mv2.jpeg", title: "Archive 13" },
+  { id: 14, src: "https://static.wixstatic.com/media/c1ad4c_cdf11a26fcbe4afbbb3ecf39d56dae4c~mv2.jpeg", title: "Archive 14" },
+  { id: 15, src: "https://static.wixstatic.com/media/c1ad4c_308ee988f7b9481e9d10810ea5df9d6a~mv2.jpeg", title: "Archive 15" },
+  { id: 16, src: "https://static.wixstatic.com/media/c1ad4c_77d0f6c94acc4e05a8f36a956f50ac8f~mv2.jpeg", title: "Archive 16" },
+  { id: 17, src: "https://static.wixstatic.com/media/c1ad4c_ec53b9e4494046c48ae19f5d5ec204ae~mv2.jpeg", title: "Archive 17" }
 ];
 
 export default function Archive3DCoverflow() {
