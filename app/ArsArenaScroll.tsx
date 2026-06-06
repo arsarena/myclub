@@ -364,7 +364,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/about%20us/welcome-hover.jpg" 
+                      src="https://static.wixstatic.com/media/c1ad4c_9a2277d327f847dd8b5e79d6e7b34954~mv2.jpg" 
                       alt="ARSARENA Event" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -407,7 +407,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/about%20us/origins-hover.jpg" 
+                      src="https://static.wixstatic.com/media/c1ad4c_6252f613c07042f2a63cabeec4e9e814~mv2.jpg" 
                       alt="Origins" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -449,7 +449,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/about%20us/campus-hover.jpg" 
+                      src="https://static.wixstatic.com/media/c1ad4c_68459f44ca3e431b9cabaff018c73109~mv2.jpg" 
                       alt="Campus Canvas" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
@@ -491,7 +491,7 @@ export default function ArsArenaScroll() {
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
                     <img 
-                      src="/about%20us/club-hover.jpg" 
+                      src="https://static.wixstatic.com/media/c1ad4c_6deaabfee6214a7d8d53e28251df4743~mv2.jpg" 
                       alt="More Than a Club" 
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}

@@ -9,15 +9,14 @@ export default function RewindScroll() {
 
   // Array of images with their titles and descriptions
   const REWIND_DATA = [
-    { src: "/rewind/graduationday.jpg", title: "Graduation Day", description: "A heartfelt farewell to years of dedication — honoring achievements, friendships, and the journey that shaped every graduate." },
-    { src: "/rewind/orientationday.jpg", title: "Orientation Day", description: "The beginning of something new — where fresh faces, new opportunities, and exciting experiences come together." },
-    { src: "/rewind/shubharamgh.jpg", title: "SHUBHARAMBH '25", description: "A night of rhythm and tradition — vibrant beats, colorful attire, and endless dancing that brings everyone together." },
-    { src: "/rewind/artscape.jpg", title: "ARTSCAPE", description: "A creative showcase where imagination meets expression — featuring artworks that reflect talent, passion, and originality." },
-    { src: "/rewind/wall_of_arts.jpg", title: "Wall of Arts", description: "A living canvas within the campus — where student artworks come together to transform a simple wall into a space of expression and beauty." },
-    { src: "/rewind/christmas.jpg", title: "Christmas Celebrations", description: "A joyful celebration of the holiday season — spreading cheer, warmth, and creativity across the campus." },
-    { src: "/rewind/umang.jpg", title: "UMANG", description: "A festive celebration of Sankranthi — embracing tradition, culture, and joy through vibrant campus festivities." },
-    { src: "/rewind/artscape2.0.jpg", title: "ARTSCAPE 2.0", description: "A vibrant gathering of emerging artists — showcasing diverse creations and fresh perspectives from across campuses." },
-    { src: "/rewind/aquila.jpg", title: "AQUILA 2025", description: "Aquila marks our grand annual celebration — a day filled with energy, performances, and unforgettable campus moments, ending on a high note." }
+    { src: "https://static.wixstatic.com/media/c1ad4c_07a4984231c342da915132e71284078f~mv2.jpg", title: "Graduation Day", description: "A heartfelt farewell to years of dedication — honoring achievements, friendships, and the journey that shaped every graduate." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_154d86872393493cb75dac41b71ed545~mv2.jpg", title: "Orientation Day", description: "The beginning of something new — where fresh faces, new opportunities, and exciting experiences come together." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_b8bcfdc6b8d64545a00c4f6b778fc888~mv2.jpg", title: "ARTSCAPE", description: "A creative showcase where imagination meets expression — featuring artworks that reflect talent, passion, and originality." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_c40b12e520894add934bfc33a94ec345~mv2.jpg", title: "Wall of Arts", description: "A living canvas within the campus — where student artworks come together to transform a simple wall into a space of expression and beauty." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_5927f3035a6f4a47a7736a3c83cf4c45~mv2.jpg", title: "Christmas Celebrations", description: "A joyful celebration of the holiday season — spreading cheer, warmth, and creativity across the campus." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_cb3d2ee774c84becb73f85ca9086477a~mv2.jpg", title: "UMANG", description: "A festive celebration of Sankranthi — embracing tradition, culture, and joy through vibrant campus festivities." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_f32a5a19eb084dc5a997903205c67f6e~mv2.jpg", title: "Orientation Day 2.0", description: "Another beautiful chapter of welcoming new creative minds into the Arsarena family." },
+    { src: "https://static.wixstatic.com/media/c1ad4c_d0ad97a46efb492aadb7f46923e77f55~mv2.jpg", title: "AQUILA 2025", description: "Aquila marks our grand annual celebration — a day filled with energy, performances, and unforgettable campus moments, ending on a high note." }
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
