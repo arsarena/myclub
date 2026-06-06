@@ -1,0 +1,4 @@
+{
+    "liveServer.settings.host": "http://localhost:3000",
+    "css.lint.unknownAtRules": "ignore"
+}
