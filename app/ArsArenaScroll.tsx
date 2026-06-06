@@ -382,7 +382,7 @@ export default function ArsArenaScroll() {
                       <span className="italic">ARSARENA</span>
                     </h1>
                     <p className="mt-1 tablet:mt-2 font-inter text-sm mob-m:text-base tablet:text-xl text-black/80 font-light tracking-wide">
-                      Defining the Art Spirit of St. Peter&apos;s
+                      Art Spirit of St. Peter&apos;s
                     </p>
                   </div>
                 </div>

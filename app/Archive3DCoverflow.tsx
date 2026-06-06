@@ -7,7 +7,7 @@ import Image from "next/image";
 const ARCHIVE_IMAGES = [
   { id: 1, src: "https://static.wixstatic.com/media/c1ad4c_18773a6c77e0400e8392add65bda0e3d~mv2.jpeg", title: "Archive 1" },
   { id: 2, src: "https://static.wixstatic.com/media/c1ad4c_27e0211900ed4a35b3fe7830a7c545cf~mv2.jpeg", title: "Archive 2" },
-  { id: 3, src: "https://static.wixstatic.com/media/c1ad4c_27e0211900ed4a35b3fe7830a7c545cf~mv2.jpeg", title: "Archive 3" },
+  { id: 3, src: "https://static.wixstatic.com/media/c1ad4c_82afc8827df345c2b006dd566c38eaad~mv2.jpg", title: "Archive 3" },
   { id: 4, src: "https://static.wixstatic.com/media/c1ad4c_660284be3d3f49cc8a9ab740b95ac9c0~mv2.jpeg", title: "Archive 4" },
   { id: 5, src: "https://static.wixstatic.com/media/c1ad4c_b2656089f0234c0a8f0f2650c2e99c04~mv2.jpeg", title: "Archive 5" },
   { id: 6, src: "https://static.wixstatic.com/media/c1ad4c_2d9023aad347416da2ea7c296720647c~mv2.jpeg", title: "Archive 6" },

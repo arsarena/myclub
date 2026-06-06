@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Arsarena Arts Club",
-  description: "Defining the Art Spirit of St. Peter's Engineering College.",
+  description: "Art Spirit of St. Peter's Engineering College.",
 };
 
 export default function RootLayout({

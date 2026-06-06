@@ -53,7 +53,7 @@ export default function Footer() {
        {/* The Dynamic Cursor Flashlight (Only on desktop with mouse — skip entirely on touch devices) */}
        {isMounted && !isMobile && (
          <motion.div 
-           className="absolute w-[800px] h-[800px] rounded-full pointer-events-none z-0"
+           className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full pointer-events-none z-0"
            style={{
              background: "radial-gradient(circle, rgba(212,163,115,0.15) 0%, rgba(212,163,115,0) 70%)",
              x: springX,
