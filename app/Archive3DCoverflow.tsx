@@ -169,6 +169,7 @@ export default function Archive3DCoverflow() {
                   sizes="(max-width: 1024px) 80vw, 50vw"
                   // Prioritize loading the 3 images in the center of the array so they appear instantly
                   priority={i >= 7 && i <= 11}
+                  unoptimized={true}
                   className="object-cover"
                 />
                 

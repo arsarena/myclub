@@ -116,6 +116,7 @@ export default function RewindScroll() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 85vw"
                 priority={currentImageIndex === 0} // Only preload the very first image
+                unoptimized={true}
                 className="object-cover"
               />
             </motion.div>
