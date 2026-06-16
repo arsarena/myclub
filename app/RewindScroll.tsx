@@ -15,7 +15,6 @@ export default function RewindScroll() {
     { src: "https://static.wixstatic.com/media/c1ad4c_c40b12e520894add934bfc33a94ec345~mv2.jpg", title: "Wall of Arts", description: "A living canvas within the campus — where student artworks come together to transform a simple wall into a space of expression and beauty." },
     { src: "https://static.wixstatic.com/media/c1ad4c_5927f3035a6f4a47a7736a3c83cf4c45~mv2.jpg", title: "Christmas Celebrations", description: "A joyful celebration of the holiday season — spreading cheer, warmth, and creativity across the campus." },
     { src: "https://static.wixstatic.com/media/c1ad4c_cb3d2ee774c84becb73f85ca9086477a~mv2.jpg", title: "UMANG", description: "A festive celebration of Sankranthi — embracing tradition, culture, and joy through vibrant campus festivities." },
-    { src: "https://static.wixstatic.com/media/c1ad4c_f32a5a19eb084dc5a997903205c67f6e~mv2.jpg", title: "Orientation Day 2.0", description: "Another beautiful chapter of welcoming new creative minds into the Arsarena family." },
     { src: "https://static.wixstatic.com/media/c1ad4c_d0ad97a46efb492aadb7f46923e77f55~mv2.jpg", title: "AQUILA 2025", description: "Aquila marks our grand annual celebration — a day filled with energy, performances, and unforgettable campus moments, ending on a high note." }
   ];
   
