@@ -9,35 +9,35 @@ const TEAM_MEMBERS = [
     id: 1, 
     name: "Yashwanth", 
     role: "President", 
-    image: "/welcome-hover.jpg",
+    image: "https://static.wixstatic.com/media/c1ad4c_eddf414369104883b47e9cd20683a164~mv2.png",
     quote: "Art is chaos mapped to a grid."
   },
   { 
     id: 2, 
     name: "Tanmayi", 
     role: "Secretary", 
-    image: "/campus-hover.jpg",
+    image: "https://static.wixstatic.com/media/c1ad4c_5fa39256a61841bdbc285f9b231a8374~mv2.png",
     quote: "Perfection is found in the margins."
   },
   { 
     id: 3, 
     name: "Jeshwanth", 
     role: "Club Admin", 
-    image: "/welcome.jpg",
+    image: "https://static.wixstatic.com/media/c1ad4c_a720e8df88714caabbfe4f5db6107a6b~mv2.png",
     quote: "Pixels are paint driven by electricity."
   },
   { 
     id: 4, 
     name: "Samatha", 
     role: "Joint Secretary", 
-    image: "/club-hover.jpg",
+    image: "https://static.wixstatic.com/media/c1ad4c_ed87a792996c4d10aeffecbfb3733a6f~mv2.png",
     quote: "We engineer environments where art thrives."
   },
   { 
     id: 5, 
     name: "Deevakar", 
     role: "Vice President", 
-    image: "/origins-hover.jpg",
+    image: "https://static.wixstatic.com/media/c1ad4c_82848cfe3cc9439aa2524d307458999a~mv2.png",
     quote: "Vision without execution is just hallucination."
   },
 ];
@@ -103,6 +103,7 @@ export default function CoreTeamAccordion() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 33vw"
                   priority={true} // Priority true since this is usually in the initial viewport or just below it
+                  unoptimized={true}
                   className={`object-cover transition-all duration-[1000ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-center transform-gpu will-change-transform
                     ${!isHovered ? "grayscale" : "grayscale-0"}
                     ${!isAnyHovered 

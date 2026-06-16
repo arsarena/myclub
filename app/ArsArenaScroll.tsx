@@ -482,7 +482,7 @@ export default function ArsArenaScroll() {
             <TiltCardWrapper transformOrigin="center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[600px] laptop:w-[700px] p-5 mob-m:p-6 tablet:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
