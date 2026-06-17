@@ -70,6 +70,8 @@ export default function ArsArenaScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [loadPercentage, setLoadPercentage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
@@ -85,6 +87,20 @@ export default function ArsArenaScroll() {
     window.addEventListener("resize", checkLayout);
     return () => window.removeEventListener("resize", checkLayout);
   }, []);
+
+  // Fake loading counter for aesthetic appeal (counts to 100% over ~0.5 seconds)
+  useEffect(() => {
+    if (loadPercentage < 100) {
+      const timer = setTimeout(() => {
+        setLoadPercentage(p => Math.min(100, p + Math.floor(Math.random() * 15) + 8));
+      }, 40);
+      return () => clearTimeout(timer);
+    } else if (videoReady) {
+      // Small delay after hitting 100 to let user see it
+      const timer = setTimeout(() => setIsLoaded(true), 200);
+      return () => clearTimeout(timer);
+    }
+  }, [loadPercentage, videoReady]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -230,11 +246,11 @@ export default function ArsArenaScroll() {
               exit={{ scale: 2, opacity: 0, filter: "blur(10px)", transition: { duration: 0.5, ease: "easeIn" } }}
             >
               <div className="w-24 h-24 mob-m:w-32 mob-m:h-32 laptop:w-48 laptop:h-48 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
-                <div className="flex justify-center mt-2 ml-3">
-                  <div className="w-8 h-8 mob-m:w-10 mob-m:h-10 border-2 border-black/80 border-t-transparent rounded-full animate-spin"></div>
+                <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
+                  {loadPercentage}%
                 </div>
-                <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-3 mob-m:mt-4 text-center ml-[0.6em]">
-                  Loading Video
+                <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
+                  Preparing Canvas
                 </div>
               </div>
             </motion.div>
@@ -252,7 +268,7 @@ export default function ArsArenaScroll() {
           preload="auto"
           muted
           playsInline
-          onLoadedData={() => setIsLoaded(true)}
+          onLoadedData={() => setVideoReady(true)}
         />
 
         {/* Text Overlays */}
