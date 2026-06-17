@@ -105,25 +105,35 @@ export default function ArsArenaScroll() {
 
   // Preload images
   useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
+    const imgArray: HTMLImageElement[] = [];
     let loadedCount = 0;
 
+    // 1. Create all 240 image elements
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
-      // pad with zeros, e.g., 001
-      const paddedIndex = i.toString().padStart(3, "0");
-      img.src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
-      
       img.onload = () => {
         loadedCount++;
         setImagesLoaded(loadedCount);
-
-        // Removed auto-background color sampling to enforce Dark Mode
       };
-      
-      loadedImages.push(img);
+      imgArray.push(img);
     }
-    setImages(loadedImages);
+    setImages(imgArray);
+
+    // 2. Fetch only the first 15 instantly so the door opens immediately
+    for (let i = 0; i < MIN_FRAMES_TO_LOAD; i++) {
+      const paddedIndex = (i + 1).toString().padStart(3, "0");
+      imgArray[i].src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
+    }
+
+    // 3. Fetch the remaining 225 frames after 1.5 seconds 
+    // This prevents the browser from downloading 70MB of images at once
+    // and completely eliminates network saturation, making the site load lightning fast!
+    setTimeout(() => {
+      for (let i = MIN_FRAMES_TO_LOAD; i < TOTAL_FRAMES; i++) {
+        const paddedIndex = (i + 1).toString().padStart(3, "0");
+        imgArray[i].src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
+      }
+    }, 1500);
   }, []);
 
   const MIN_FRAMES_TO_LOAD = 15;
