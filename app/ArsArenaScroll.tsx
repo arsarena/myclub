@@ -3,10 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
-const TOTAL_FRAMES = 240;
-const FRAME_PREFIX = "ezgif-frame-";
-const FRAME_EXTENSION = ".jpg";
-const FOLDER_PATH = "https://jzyg3qcwdokpd0fx.public.blob.vercel-storage.com/logo%20animated/";
+
 
 // 3D Hover Tilt Wrapper for massive scroll cards — with tap-to-reveal on mobile
 function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (revealed: boolean) => React.ReactNode, transformOrigin: string, isMobile: boolean }) {
@@ -71,9 +68,8 @@ function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (r
 
 export default function ArsArenaScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
@@ -103,119 +99,29 @@ export default function ArsArenaScroll() {
     restDelta: 0.001
   });
 
-  // Preload images
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
-
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      // pad with zeros, e.g., 001
-      const paddedIndex = i.toString().padStart(3, "0");
-      img.src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
-      
-      img.onload = () => {
-        loadedCount++;
-        setImagesLoaded(loadedCount);
-
-        // Removed auto-background color sampling to enforce Dark Mode
-      };
-      
-      loadedImages.push(img);
-    }
-    setImages(loadedImages);
-  }, []);
-
-  const isLoaded = imagesLoaded === TOTAL_FRAMES;
-
-  // Track the current frame index using the smoothed progress
-  const frameIndex = useTransform(smoothProgress, [0, 1], [0, TOTAL_FRAMES - 1]);
-
-  useMotionValueEvent(frameIndex, "change", (latest) => {
-    if (!isLoaded) return;
-    
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    
-    const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(latest)));
-    const img = images[index];
-    
-    if (img && img.complete) {
-      // Draw image to fill canvas (contain fit as requested)
-      const canvasRatio = canvas.width / canvas.height;
-      const imgRatio = img.width / img.height;
-      
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      let drawWidth, drawHeight, offsetX, offsetY;
-      
-      if (canvasRatio > imgRatio) {
-        // Canvas is wider than image (fit to width to COVER)
-        drawWidth = canvas.width;
-        drawHeight = img.height * (canvas.width / img.width);
-        offsetX = 0;
-        offsetY = (canvas.height - drawHeight) / 2;
-      } else {
-        // Canvas is taller than image (fit to height to COVER)
-        drawHeight = canvas.height;
-        drawWidth = img.width * (canvas.height / img.height);
-        offsetX = (canvas.width - drawWidth) / 2;
-        offsetY = 0;
-      }
-      
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+  // Drive video playback based on scroll
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    if (!videoRef.current) return;
+    const duration = videoRef.current.duration;
+    if (duration && !isNaN(duration)) {
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = latest * duration;
+        }
+      });
     }
   });
 
-  // Handle canvas resize
+  // Force video to load and unlock for seeking
   useEffect(() => {
-    const handleResize = () => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // Redraw current frame
-        const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(frameIndex.get())));
-        const img = images[index];
-        if (img && img.complete) {
-          setTimeout(() => {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-              const canvasRatio = canvas.width / canvas.height;
-              const imgRatio = img.width / img.height;
-              
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              let drawWidth, drawHeight, offsetX, offsetY;
-              
-      if (canvasRatio > imgRatio) {
-        // Canvas is wider than image (fit to width to COVER)
-        drawWidth = canvas.width;
-        drawHeight = img.height * (canvas.width / img.width);
-        offsetX = 0;
-        offsetY = (canvas.height - drawHeight) / 2;
-      } else {
-        // Canvas is taller than image (fit to height to COVER)
-        drawHeight = canvas.height;
-        drawWidth = img.width * (canvas.height / img.height);
-        offsetX = (canvas.width - drawWidth) / 2;
-        offsetY = 0;
-      }
-              ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-            }
-          }, 0);
-        }
-      }
-    };
-    
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    
-    return () => window.removeEventListener("resize", handleResize);
-  }, [images, frameIndex, isLoaded]);
+    if (videoRef.current) {
+      videoRef.current.load();
+      // Attempt to play and pause immediately to unlock iOS/Chrome playback engine
+      videoRef.current.play().then(() => {
+        videoRef.current?.pause();
+      }).catch(() => {});
+    }
+  }, []);
 
   // --- Scroll Timing Configuration (0.0 to 1.0) ---
   // Frame 95 out of 240 is exactly 40% scroll progress (95/239 = 0.397)
@@ -324,11 +230,11 @@ export default function ArsArenaScroll() {
               exit={{ scale: 2, opacity: 0, filter: "blur(10px)", transition: { duration: 0.5, ease: "easeIn" } }}
             >
               <div className="w-24 h-24 mob-m:w-32 mob-m:h-32 laptop:w-48 laptop:h-48 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
-                <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
-                  {Math.round((imagesLoaded / TOTAL_FRAMES) * 100)}%
+                <div className="flex justify-center mt-2 ml-3">
+                  <div className="w-8 h-8 mob-m:w-10 mob-m:h-10 border-2 border-black/80 border-t-transparent rounded-full animate-spin"></div>
                 </div>
-                <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
-                  Preparing Canvas
+                <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-3 mob-m:mt-4 text-center ml-[0.6em]">
+                  Loading Video
                 </div>
               </div>
             </motion.div>
@@ -337,11 +243,16 @@ export default function ArsArenaScroll() {
         )}
       </AnimatePresence>
 
-      {/* Sticky Canvas Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <canvas
-          ref={canvasRef}
+      {/* Sticky Video Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+        <video
+          ref={videoRef}
+          src="/scroll-animation-compressed.mp4"
           className="absolute inset-0 h-full w-full object-cover"
+          preload="auto"
+          muted
+          playsInline
+          onLoadedData={() => setIsLoaded(true)}
         />
 
         {/* Text Overlays */}

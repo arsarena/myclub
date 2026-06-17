@@ -88,7 +88,7 @@ export default function Header() {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ delay: 0.6, duration: 1.2, ease: "easeOut" }}
-            className="relative flex items-center justify-center shrink-0"
+            className="flex items-center flex-1"
           >
             <img 
               src="https://static.wixstatic.com/media/c1ad4c_c9131629f24a445ab5acb173ec2202dc~mv2.png" 
