@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useMot
 const TOTAL_FRAMES = 240;
 const FRAME_PREFIX = "ezgif-frame-";
 const FRAME_EXTENSION = ".jpg";
-const FOLDER_PATH = "/logoAnimated/";
+const FOLDER_PATH = "https://jzyg3qcwdokpd0fx.public.blob.vercel-storage.com/logo%20animated/";
 
 // 3D Hover Tilt Wrapper for massive scroll cards — with tap-to-reveal on mobile
 function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (revealed: boolean) => React.ReactNode, transformOrigin: string, isMobile: boolean }) {
@@ -126,7 +126,9 @@ export default function ArsArenaScroll() {
     setImages(loadedImages);
   }, []);
 
-  const isLoaded = imagesLoaded === TOTAL_FRAMES;
+  const MIN_FRAMES_TO_LOAD = 15;
+  const isLoaded = imagesLoaded >= Math.min(TOTAL_FRAMES, MIN_FRAMES_TO_LOAD);
+  const loadingProgress = Math.min(100, Math.round((imagesLoaded / Math.min(TOTAL_FRAMES, MIN_FRAMES_TO_LOAD)) * 100));
 
   // Track the current frame index using the smoothed progress
   const frameIndex = useTransform(smoothProgress, [0, 1], [0, TOTAL_FRAMES - 1]);
@@ -325,7 +327,7 @@ export default function ArsArenaScroll() {
             >
               <div className="w-24 h-24 mob-m:w-32 mob-m:h-32 laptop:w-48 laptop:h-48 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
                 <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
-                  {Math.round((imagesLoaded / TOTAL_FRAMES) * 100)}%
+                  {loadingProgress}%
                 </div>
                 <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
                   Preparing Canvas
