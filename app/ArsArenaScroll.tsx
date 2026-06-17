@@ -3,13 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
-const TOTAL_SEQUENCE_FRAMES = 240; // Total frames in the original animation
-const FRAME_STEP = 2;              // Load every Nth frame (2 = skip every other)
-const FRAMES_TO_LOAD = Math.ceil(TOTAL_SEQUENCE_FRAMES / FRAME_STEP); // 120 actual frames
-const CRITICAL_FRAMES = 12;        // Show page after this many frames load (~6MB)
-const FRAME_PREFIX = "ezgif-frame-";
-const FRAME_EXTENSION = ".jpg";
-const FOLDER_PATH = "https://jzyg3qcwdokpd0fx.public.blob.vercel-storage.com/logo%20animated/";
 
 // 3D Hover Tilt Wrapper for massive scroll cards — with tap-to-reveal on mobile
 function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (revealed: boolean) => React.ReactNode, transformOrigin: string, isMobile: boolean }) {
@@ -74,9 +67,8 @@ function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (r
 
 export default function ArsArenaScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
@@ -106,139 +98,13 @@ export default function ArsArenaScroll() {
     restDelta: 0.001
   });
 
-  // Preload images
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
-
-    for (let i = 0; i < FRAMES_TO_LOAD; i++) {
-      const img = new Image();
-      // Map to original frame number: 1, 3, 5, ..., 239 (every FRAME_STEP-th frame)
-      const originalFrameNum = (i * FRAME_STEP) + 1;
-      const paddedIndex = originalFrameNum.toString().padStart(3, "0");
-      img.src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
-      
-      img.onload = () => {
-        loadedCount++;
-        setImagesLoaded(loadedCount);
-
-        // Removed auto-background color sampling to enforce Dark Mode
-      };
-      
-      loadedImages.push(img);
-    }
-    setImages(loadedImages);
-  }, []);
-
-  const isLoaded = imagesLoaded >= CRITICAL_FRAMES;
-
-  // Track the current frame index using the smoothed progress
-  const frameIndex = useTransform(smoothProgress, [0, 1], [0, FRAMES_TO_LOAD - 1]);
-
-  useMotionValueEvent(frameIndex, "change", (latest) => {
-    if (!isLoaded) return;
-    
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    
-    const index = Math.min(FRAMES_TO_LOAD - 1, Math.max(0, Math.floor(latest)));
-    let img = images[index];
-    
-    // Progressive fallback: if target frame hasn't loaded yet, find nearest loaded frame
-    if (!img || !img.complete) {
-      for (let offset = 1; offset < FRAMES_TO_LOAD; offset++) {
-        const before = index - offset;
-        const after = index + offset;
-        if (before >= 0 && images[before]?.complete) { img = images[before]; break; }
-        if (after < FRAMES_TO_LOAD && images[after]?.complete) { img = images[after]; break; }
-      }
-    }
-    
-    if (img && img.complete) {
-      // Draw image to fill canvas (contain fit as requested)
-      const canvasRatio = canvas.width / canvas.height;
-      const imgRatio = img.width / img.height;
-      
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      let drawWidth, drawHeight, offsetX, offsetY;
-      
-      if (canvasRatio > imgRatio) {
-        // Canvas is wider than image (fit to width to COVER)
-        drawWidth = canvas.width;
-        drawHeight = img.height * (canvas.width / img.width);
-        offsetX = 0;
-        offsetY = (canvas.height - drawHeight) / 2;
-      } else {
-        // Canvas is taller than image (fit to height to COVER)
-        drawHeight = canvas.height;
-        drawWidth = img.width * (canvas.height / img.height);
-        offsetX = (canvas.width - drawWidth) / 2;
-        offsetY = 0;
-      }
-      
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+  // Scrub the video based on scroll progress
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    if (videoRef.current && isVideoLoaded && videoRef.current.duration) {
+      // Scrub the video natively!
+      videoRef.current.currentTime = latest * videoRef.current.duration;
     }
   });
-
-  // Handle canvas resize
-  useEffect(() => {
-    const handleResize = () => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // Redraw current frame
-        const index = Math.min(FRAMES_TO_LOAD - 1, Math.max(0, Math.floor(frameIndex.get())));
-        let img = images[index];
-        // Fallback to nearest loaded frame
-        if (!img || !img.complete) {
-          for (let offset = 1; offset < FRAMES_TO_LOAD; offset++) {
-            const before = index - offset;
-            const after = index + offset;
-            if (before >= 0 && images[before]?.complete) { img = images[before]; break; }
-            if (after < FRAMES_TO_LOAD && images[after]?.complete) { img = images[after]; break; }
-          }
-        }
-        if (img && img.complete) {
-          setTimeout(() => {
-            const ctx = canvas.getContext("2d");
-            if (ctx) {
-              const canvasRatio = canvas.width / canvas.height;
-              const imgRatio = img.width / img.height;
-              
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-              let drawWidth, drawHeight, offsetX, offsetY;
-              
-      if (canvasRatio > imgRatio) {
-        // Canvas is wider than image (fit to width to COVER)
-        drawWidth = canvas.width;
-        drawHeight = img.height * (canvas.width / img.width);
-        offsetX = 0;
-        offsetY = (canvas.height - drawHeight) / 2;
-      } else {
-        // Canvas is taller than image (fit to height to COVER)
-        drawHeight = canvas.height;
-        drawWidth = img.width * (canvas.height / img.height);
-        offsetX = (canvas.width - drawWidth) / 2;
-        offsetY = 0;
-      }
-              ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-            }
-          }, 0);
-        }
-      }
-    };
-    
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    
-    return () => window.removeEventListener("resize", handleResize);
-  }, [images, frameIndex, isLoaded]);
 
   // --- Scroll Timing Configuration (0.0 to 1.0) ---
   // Frame 95 out of 240 is exactly 40% scroll progress (95/239 = 0.397)
@@ -307,9 +173,9 @@ export default function ArsArenaScroll() {
       {/* Invisible anchor for the Header navigation. Dynamically tied to the originsFadeInEnd variable! (Scrollable distance is 300vh) */}
       <div id="origins" className="absolute" style={{ top: `${originsFadeInEnd * 300}vh` }} />
       
-      {/* Split-Door Theater Reveal (Option 7) */}
+      {/* Split-Door Theater Reveal */}
       <AnimatePresence>
-        {!isLoaded && (
+        {!isVideoLoaded && (
           <div className="fixed inset-0 z-[99999] pointer-events-none">
             
             {/* LEFT DOOR (Clips the left 50% of the screen) */}
@@ -348,10 +214,10 @@ export default function ArsArenaScroll() {
             >
               <div className="w-24 h-24 mob-m:w-32 mob-m:h-32 laptop:w-48 laptop:h-48 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
                 <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
-                  {Math.min(100, Math.round((imagesLoaded / CRITICAL_FRAMES) * 100))}%
+                  100%
                 </div>
                 <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
-                  Preparing Canvas
+                  Ready
                 </div>
               </div>
             </motion.div>
@@ -360,10 +226,15 @@ export default function ArsArenaScroll() {
         )}
       </AnimatePresence>
 
-      {/* Sticky Canvas Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <canvas
-          ref={canvasRef}
+      {/* Sticky Video Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F5F2EB]">
+        <video
+          ref={videoRef}
+          src="/scroll-animation.mp4"
+          muted
+          playsInline
+          preload="auto"
+          onLoadedData={() => setIsVideoLoaded(true)}
           className="absolute inset-0 h-full w-full object-cover"
         />
 
