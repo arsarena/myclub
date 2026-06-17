@@ -123,21 +123,12 @@ export default function ArsArenaScroll() {
       requestAnimationFrame(() => {
         if (videoRef.current) {
           videoRef.current.currentTime = latest * duration;
+          // Force pause to guarantee it never auto-plays
+          videoRef.current.pause();
         }
       });
     }
   });
-
-  // Force video to load and unlock for seeking
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      // Attempt to play and pause immediately to unlock iOS/Chrome playback engine
-      videoRef.current.play().then(() => {
-        videoRef.current?.pause();
-      }).catch(() => {});
-    }
-  }, []);
 
   // --- Scroll Timing Configuration (0.0 to 1.0) ---
   // Frame 95 out of 240 is exactly 40% scroll progress (95/239 = 0.397)
