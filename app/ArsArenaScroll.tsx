@@ -297,10 +297,10 @@ export default function ArsArenaScroll() {
               exit={{ x: "-50vw", opacity: 0, transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.4 } }}
             >
               {/* Subtle watermark background */}
-              <img src="/ARSARENA_bg.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
+              <img src="https://static.wixstatic.com/media/c1ad4c_cb5350d89fce4d21a3cc2359f7c28e3d~mv2.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
               
               {/* The Left Half of the Logo */}
-              <img src="/ARSARENA_bg.jpg" alt="Logo Left" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
+              <img src="https://static.wixstatic.com/media/c1ad4c_c9131629f24a445ab5acb173ec2202dc~mv2.png" alt="Logo Left" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
             </motion.div>
 
             {/* RIGHT DOOR (Clips the right 50% of the screen) */}
@@ -311,10 +311,10 @@ export default function ArsArenaScroll() {
               exit={{ x: "50vw", opacity: 0, transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.4 } }}
             >
               {/* Subtle watermark background */}
-              <img src="/ARSARENA_bg.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
+              <img src="https://static.wixstatic.com/media/c1ad4c_cb5350d89fce4d21a3cc2359f7c28e3d~mv2.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
               
               {/* The Right Half of the Logo */}
-              <img src="/ARSARENA_bg.jpg" alt="Logo Right" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
+              <img src="https://static.wixstatic.com/media/c1ad4c_c9131629f24a445ab5acb173ec2202dc~mv2.png" alt="Logo Right" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
             </motion.div>
 
             {/* Center Lock / Glassmorphic Loading Dial */}
