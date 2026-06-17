@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
-const TOTAL_FRAMES = 240;
+const TOTAL_SEQUENCE_FRAMES = 240; // Total frames in the original animation
+const FRAME_STEP = 2;              // Load every Nth frame (2 = skip every other)
+const FRAMES_TO_LOAD = Math.ceil(TOTAL_SEQUENCE_FRAMES / FRAME_STEP); // 120 actual frames
+const CRITICAL_FRAMES = 12;        // Show page after this many frames load (~6MB)
 const FRAME_PREFIX = "ezgif-frame-";
 const FRAME_EXTENSION = ".jpg";
 const FOLDER_PATH = "https://jzyg3qcwdokpd0fx.public.blob.vercel-storage.com/logo%20animated/";
@@ -108,10 +111,11 @@ export default function ArsArenaScroll() {
     const loadedImages: HTMLImageElement[] = [];
     let loadedCount = 0;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+    for (let i = 0; i < FRAMES_TO_LOAD; i++) {
       const img = new Image();
-      // pad with zeros, e.g., 001
-      const paddedIndex = i.toString().padStart(3, "0");
+      // Map to original frame number: 1, 3, 5, ..., 239 (every FRAME_STEP-th frame)
+      const originalFrameNum = (i * FRAME_STEP) + 1;
+      const paddedIndex = originalFrameNum.toString().padStart(3, "0");
       img.src = `${FOLDER_PATH}${FRAME_PREFIX}${paddedIndex}${FRAME_EXTENSION}`;
       
       img.onload = () => {
@@ -126,10 +130,10 @@ export default function ArsArenaScroll() {
     setImages(loadedImages);
   }, []);
 
-  const isLoaded = imagesLoaded === TOTAL_FRAMES;
+  const isLoaded = imagesLoaded >= CRITICAL_FRAMES;
 
   // Track the current frame index using the smoothed progress
-  const frameIndex = useTransform(smoothProgress, [0, 1], [0, TOTAL_FRAMES - 1]);
+  const frameIndex = useTransform(smoothProgress, [0, 1], [0, FRAMES_TO_LOAD - 1]);
 
   useMotionValueEvent(frameIndex, "change", (latest) => {
     if (!isLoaded) return;
@@ -140,8 +144,18 @@ export default function ArsArenaScroll() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     
-    const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(latest)));
-    const img = images[index];
+    const index = Math.min(FRAMES_TO_LOAD - 1, Math.max(0, Math.floor(latest)));
+    let img = images[index];
+    
+    // Progressive fallback: if target frame hasn't loaded yet, find nearest loaded frame
+    if (!img || !img.complete) {
+      for (let offset = 1; offset < FRAMES_TO_LOAD; offset++) {
+        const before = index - offset;
+        const after = index + offset;
+        if (before >= 0 && images[before]?.complete) { img = images[before]; break; }
+        if (after < FRAMES_TO_LOAD && images[after]?.complete) { img = images[after]; break; }
+      }
+    }
     
     if (img && img.complete) {
       // Draw image to fill canvas (contain fit as requested)
@@ -178,8 +192,17 @@ export default function ArsArenaScroll() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         // Redraw current frame
-        const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(frameIndex.get())));
-        const img = images[index];
+        const index = Math.min(FRAMES_TO_LOAD - 1, Math.max(0, Math.floor(frameIndex.get())));
+        let img = images[index];
+        // Fallback to nearest loaded frame
+        if (!img || !img.complete) {
+          for (let offset = 1; offset < FRAMES_TO_LOAD; offset++) {
+            const before = index - offset;
+            const after = index + offset;
+            if (before >= 0 && images[before]?.complete) { img = images[before]; break; }
+            if (after < FRAMES_TO_LOAD && images[after]?.complete) { img = images[after]; break; }
+          }
+        }
         if (img && img.complete) {
           setTimeout(() => {
             const ctx = canvas.getContext("2d");
@@ -325,7 +348,7 @@ export default function ArsArenaScroll() {
             >
               <div className="w-24 h-24 mob-m:w-32 mob-m:h-32 laptop:w-48 laptop:h-48 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
                 <div className="font-bebas text-black/90 text-3xl mob-m:text-4xl laptop:text-6xl tracking-normal leading-none text-center flex justify-center mt-2 ml-3">
-                  {Math.round((imagesLoaded / TOTAL_FRAMES) * 100)}%
+                  {Math.min(100, Math.round((imagesLoaded / CRITICAL_FRAMES) * 100))}%
                 </div>
                 <div className="font-inter text-black/60 text-[0.4375rem] mob-m:text-[0.5rem] laptop:text-[0.625rem] tracking-[0.4em] uppercase mt-1.5 mob-m:mt-2 text-center ml-[0.6em]">
                   Preparing Canvas
