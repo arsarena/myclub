@@ -108,25 +108,23 @@ export default function ArsArenaScroll() {
   });
 
   // Apply spring physics to the scroll progress for buttery smooth interpolation
-  // This eliminates jitter from chunky mouse wheels
+  // Overdamped (damping > 2*sqrt(stiffness)) to prevent oscillation/bounce on video seeks
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
+    stiffness: 200,
+    damping: 50,
+    restDelta: 0.0001
   });
 
-  // Drive video playback based on scroll
+  // Drive video currentTime directly from scroll — no rAF wrapper (useMotionValueEvent already fires on animation frames)
   useMotionValueEvent(smoothProgress, "change", (latest) => {
-    if (!videoRef.current) return;
-    const duration = videoRef.current.duration;
-    if (duration && !isNaN(duration)) {
-      requestAnimationFrame(() => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = latest * duration;
-          // Force pause to guarantee it never auto-plays
-          videoRef.current.pause();
-        }
-      });
+    const video = videoRef.current;
+    if (!video || !video.duration || isNaN(video.duration)) return;
+
+    const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
+
+    // Skip seeks smaller than ~1 frame (16ms) to prevent micro-jitter
+    if (Math.abs(video.currentTime - targetTime) > 0.016) {
+      video.currentTime = targetTime;
     }
   });
 
@@ -250,8 +248,8 @@ export default function ArsArenaScroll() {
         )}
       </AnimatePresence>
 
-      {/* Sticky Video Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+      {/* Sticky Video Container — 100dvh accounts for mobile browser chrome (address bar) */}
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#F5F2EB]">
         <video
           ref={videoRef}
           src="/scroll-animation-compressed.mp4"
@@ -259,7 +257,8 @@ export default function ArsArenaScroll() {
           preload="auto"
           muted
           playsInline
-          onLoadedData={() => setVideoReady(true)}
+          onCanPlayThrough={() => setVideoReady(true)}
+          onLoadedData={() => { if (!videoReady) setVideoReady(true); }}
         />
 
         {/* Text Overlays */}
