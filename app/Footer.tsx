@@ -41,7 +41,7 @@ export default function Footer() {
       id="join"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-end overflow-hidden pb-6 mob-m:pb-8 pt-16 mob-m:pt-20 tablet:pt-32 border-t border-white/5"
+      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-end overflow-hidden pb-6 mob-m:pb-8 tablet:pb-10 pt-16 mob-m:pt-20 tablet:pt-32 desktop:pt-40 border-t border-white/5"
     >
        {/* The Massive Subtext Watermark */}
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] overflow-hidden select-none">
@@ -70,7 +70,7 @@ export default function Footer() {
        }`} />
 
        {/* Main Content Area */}
-       <div className="relative z-10 w-full px-4 mob-m:px-6 tablet:px-12 desktop:px-24 flex flex-col items-center">
+       <div className="relative z-10 w-full px-4 mob-m:px-6 tablet:px-12 laptop:px-16 desktop:px-24 large:px-32 flex flex-col items-center">
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -84,7 +84,7 @@ export default function Footer() {
             </p>
 
             <div className="group relative cursor-pointer mb-6 mob-m:mb-8 text-center flex flex-col items-center">
-               <h2 className="font-bebas text-center text-[19vw] mob-m:text-[17vw] tablet:text-[14vw] desktop:text-[11vw] leading-[0.85] text-white tracking-tight transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#D4A373] group-hover:via-white group-hover:to-[#D4A373] group-hover:scale-[1.02]">
+               <h2 className="font-bebas text-center text-[19vw] mob-m:text-[17vw] tablet:text-[14vw] laptop:text-[12vw] desktop:text-[11vw] large:text-[9vw] leading-[0.85] text-white tracking-tight transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#D4A373] group-hover:via-white group-hover:to-[#D4A373] group-hover:scale-[1.02]">
                  <span className="block md:inline">JOIN</span> <span className="block md:inline">ARSARENA</span>
                </h2>
                {/* Underline pulse on hover */}
@@ -92,7 +92,7 @@ export default function Footer() {
             </div>
 
             {/* Club Mission Statement */}
-            <p className="font-inter text-white/60 text-center max-w-xs mob-m:max-w-sm tablet:max-w-2xl text-xs mob-m:text-sm tablet:text-base leading-relaxed mb-8 mob-m:mb-10 tablet:mb-12 px-2">
+            <p className="font-inter text-white/60 text-center max-w-xs mob-m:max-w-sm tablet:max-w-xl laptop:max-w-2xl desktop:max-w-3xl text-xs mob-m:text-sm tablet:text-base desktop:text-lg leading-relaxed mb-8 mob-m:mb-10 tablet:mb-12 px-2">
               At ARSARENA, we don't just make art — we create experiences, celebrate creativity, and grow together. Ready to make your mark?
             </p>
 
@@ -114,7 +114,7 @@ export default function Footer() {
 
 
           {/* Legal / Copyright Footer */}
-          <div className="w-full flex flex-col tablet:flex-row justify-between items-center gap-2 mob-m:gap-3 mt-10 mob-m:mt-12 text-white/30 text-[0.5625rem] mob-m:text-[0.625rem] tablet:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em]">
+          <div className="w-full flex flex-row justify-between items-center gap-2 mob-m:gap-3 mt-10 mob-m:mt-12 tablet:mt-16 text-white/30 text-[0.5625rem] mob-m:text-[0.625rem] tablet:text-xs laptop:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em] px-1 tablet:px-2">
              <p>© {new Date().getFullYear()} ARSARENA</p>
              <motion.a 
                href="https://www.instagram.com/arsarena_spec?igsh=MWZ6b29lNHEwN2hraA=="

@@ -288,12 +288,12 @@ export default function ArsArenaScroll() {
           {/* 0% Scroll: Welcome to ARSARENA */}
           <motion.div 
             style={{ opacity: opacity0, y: y0, pointerEvents: pointerEvents0 }}
-            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 desktop:left-32 large:left-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[480px] laptop:w-[600px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[60vw] laptop:w-[50vw] desktop:w-[600px] large:w-[700px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -315,11 +315,11 @@ export default function ArsArenaScroll() {
                   <div className={`relative z-10 transition-opacity duration-500 flex flex-col items-start text-left pointer-events-none
                     ${revealed ? 'opacity-0' : 'group-hover:opacity-0'}
                   `}>
-                    <h1 className="font-playfair text-3xl mob-m:text-4xl tablet:text-6xl desktop:text-8xl text-black/90 tracking-tight">
+                    <h1 className="font-playfair text-3xl mob-m:text-4xl tablet:text-5xl laptop:text-6xl desktop:text-8xl large:text-9xl text-black/90 tracking-tight">
                       Welcome to <br />
                       <span className="italic">ARSARENA</span>
                     </h1>
-                    <p className="mt-1 tablet:mt-2 font-inter text-sm mob-m:text-base tablet:text-xl text-black/80 font-light tracking-wide">
+                    <p className="mt-1 tablet:mt-2 font-inter text-sm mob-m:text-base tablet:text-lg laptop:text-xl large:text-2xl text-black/80 font-light tracking-wide">
                       Art Spirit of St. Peter&apos;s
                     </p>
                   </div>
@@ -331,12 +331,12 @@ export default function ArsArenaScroll() {
           {/* Origins Card */}
           <motion.div 
             style={{ opacity: opacity30, y: y30, pointerEvents: pointerEvents30 }}
-            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-auto tablet:right-12 laptop:right-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-end"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-auto tablet:right-12 laptop:right-24 desktop:right-32 large:right-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-end"
           >
             <TiltCardWrapper transformOrigin="right center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -358,10 +358,10 @@ export default function ArsArenaScroll() {
                   <div className={`relative z-10 transition-opacity duration-500 flex flex-col items-end text-right
                     ${revealed ? 'opacity-0' : 'group-hover:opacity-0'}
                   `}>
-                    <h2 className="font-playfair text-2xl mob-m:text-3xl tablet:text-6xl text-black/90 leading-tight">
+                    <h2 className="font-playfair text-2xl mob-m:text-3xl tablet:text-4xl laptop:text-5xl desktop:text-6xl large:text-7xl text-black/90 leading-tight">
                       Genesis
                     </h2>
-                    <p className="mt-2 tablet:mt-4 font-inter text-sm mob-m:text-base tablet:text-lg text-black/70">
+                    <p className="mt-2 tablet:mt-4 font-inter text-sm mob-m:text-base tablet:text-base laptop:text-lg desktop:text-xl text-black/70">
                       ARSARENA is a creative space where ideas come to life. Built on a passion for art and expression, we bring together students who love to create, design, and inspire.
                     </p>
                   </div>
@@ -373,12 +373,12 @@ export default function ArsArenaScroll() {
           {/* Campus Canvas Card */}
           <motion.div 
             style={{ opacity: opacity60, y: y60, pointerEvents: pointerEvents60 }}
-            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
+            className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 desktop:left-32 large:left-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-12 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -400,10 +400,10 @@ export default function ArsArenaScroll() {
                   <div className={`relative z-10 transition-opacity duration-500 flex flex-col items-start text-left
                     ${revealed ? 'opacity-0' : 'group-hover:opacity-0'}
                   `}>
-                    <h2 className="font-playfair text-2xl mob-m:text-3xl tablet:text-6xl text-black/90 leading-tight">
+                    <h2 className="font-playfair text-2xl mob-m:text-3xl tablet:text-4xl laptop:text-5xl desktop:text-6xl large:text-7xl text-black/90 leading-tight">
                       Campus Canvas
                     </h2>
-                    <p className="mt-2 tablet:mt-4 font-inter text-sm mob-m:text-base tablet:text-lg text-black/70">
+                    <p className="mt-2 tablet:mt-4 font-inter text-sm mob-m:text-base tablet:text-base laptop:text-lg desktop:text-xl text-black/70">
                       From vibrant rangoli designs, glass paintings, and handcrafted photobooths to engaging competitions and art showcases, we add color and creativity to every corner of campus. Our initiatives, like the Wall of Arts and Artscape, reflect the talent and imagination of our community.
                     </p>
                   </div>
@@ -420,7 +420,7 @@ export default function ArsArenaScroll() {
             <TiltCardWrapper transformOrigin="center" isMobile={isTouchDevice}>
               {(revealed) => (
                 <div 
-                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[450px] laptop:w-[500px] p-5 mob-m:p-6 tablet:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
+                  className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-10 laptop:p-12 desktop:p-14 large:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
                 >
@@ -442,11 +442,11 @@ export default function ArsArenaScroll() {
                   <div className={`relative z-10 transition-opacity duration-500 flex flex-col items-center text-center
                     ${revealed ? 'opacity-0' : 'group-hover:opacity-0'}
                   `}>
-                    <h2 className="font-playfair text-3xl mob-m:text-4xl tablet:text-7xl text-black/90">
+                    <h2 className="font-playfair text-3xl mob-m:text-4xl tablet:text-5xl laptop:text-6xl desktop:text-7xl large:text-8xl text-black/90">
                       More Than <br />
                       a Club
                     </h2>
-                    <p className="mt-3 mob-m:mt-4 tablet:mt-6 font-inter text-sm mob-m:text-base tablet:text-lg text-black/70 max-w-lg">
+                    <p className="mt-3 mob-m:mt-4 tablet:mt-6 font-inter text-sm mob-m:text-base tablet:text-base laptop:text-lg desktop:text-xl text-black/70 max-w-lg">
                       We are a family of designers, painters, sculptors, and dreamers. Find your people, forge lifelong friendships, and collaborate on projects that matter.
                     </p>
                   </div>

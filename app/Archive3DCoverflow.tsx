@@ -94,7 +94,7 @@ export default function Archive3DCoverflow() {
       id="archive"
       onMouseMove={handleMouseMove}
       // Reduced height on mobile/tablet, full height on desktop
-      className="relative w-full h-[70vh] tablet:h-[80vh] desktop:h-[100vh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
+      className="relative w-full h-[70vh] tablet:h-[80vh] desktop:h-screen bg-[#050505] overflow-hidden flex flex-col items-center justify-center cursor-crosshair touch-pan-y"
       style={{ perspective: "1500px" }}
     >
         
@@ -114,7 +114,7 @@ export default function Archive3DCoverflow() {
 
         {/* Cover Flow Carousel */}
         <div 
-          className="relative w-full h-[40vh] mob-m:h-[45vh] tablet:h-[60vh] flex items-center justify-center transform-style-3d cursor-none"
+          className="relative w-full h-[40vh] mob-m:h-[45vh] tablet:h-[55vh] laptop:h-[60vh] desktop:h-[70vh] flex items-center justify-center transform-style-3d cursor-none"
           data-cursor="DRAG"
         >
           {ARCHIVE_IMAGES.map((img, i) => {
@@ -146,7 +146,7 @@ export default function Archive3DCoverflow() {
             return (
               <motion.div
                 key={img.id}
-                className="absolute w-[80vw] mob-m:w-[75vw] tablet:w-[60vw] laptop:w-[640px] aspect-video rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
+                className="absolute w-[80vw] mob-m:w-[75vw] tablet:w-[55vw] laptop:w-[50vw] desktop:w-[640px] large:w-[800px] aspect-video rounded-xl mob-m:rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
                 style={{
                   x,
                   rotateY,
