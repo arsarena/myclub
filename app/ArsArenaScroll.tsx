@@ -102,21 +102,42 @@ export default function ArsArenaScroll() {
     }
   }, [loadPercentage, videoReady]);
 
+  // CRITICAL: iOS/Android safety net for video loading
+  // Both platforms may ignore preload="auto" for large videos on cellular networks,
+  // causing onCanPlayThrough/onLoadedData to NEVER fire. The 21MB video is especially
+  // problematic. Without this timeout, the loading doors stay shut forever.
+  useEffect(() => {
+    if (loadPercentage >= 100 && !videoReady) {
+      const safetyTimer = setTimeout(() => setVideoReady(true), 3000);
+      return () => clearTimeout(safetyTimer);
+    }
+  }, [loadPercentage, videoReady]);
+
+  // Explicitly trigger video download — iOS requires load() since preload="auto" is advisory
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      try { video.load(); } catch (e) { /* iOS may throw in edge cases */ }
+    }
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Apply spring physics to the scroll progress for buttery smooth interpolation
-  // Overdamped (damping > 2*sqrt(stiffness)) to prevent oscillation/bounce on video seeks
+  // Spring-smoothed progress — used ONLY for card fade animations (not video)
+  // The spring provides the glassy, smooth card transitions without affecting video latency
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 200,
     damping: 50,
     restDelta: 0.0001
   });
 
-  // Drive video currentTime directly from scroll — no rAF wrapper (useMotionValueEvent already fires on animation frames)
-  useMotionValueEvent(smoothProgress, "change", (latest) => {
+  // Drive video from RAW scroll progress — NOT the spring-smoothed version
+  // Lenis already smooths the scroll; adding spring on top causes 1-2 second lag
+  // that makes video scrubbing feel "swimmy" on ALL desktop platforms
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
@@ -198,7 +219,7 @@ export default function ArsArenaScroll() {
       {/* Split-Door Theater Reveal (Option 7) */}
       <AnimatePresence>
         {!isLoaded && (
-          <div className="fixed inset-0 z-[99999] pointer-events-none">
+          <div className="fixed inset-0 z-[99999]">
             
             {/* LEFT DOOR (Clips the left 50% of the screen) */}
             <motion.div 
@@ -248,11 +269,11 @@ export default function ArsArenaScroll() {
         )}
       </AnimatePresence>
 
-      {/* Sticky Video Container — 100dvh accounts for mobile browser chrome (address bar) */}
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#F5F2EB]">
+      {/* Sticky Video Container — h-screen (100vh) for universal browser support */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F5F2EB]">
         <video
           ref={videoRef}
-          src="/scroll-animation-compressed.mp4"
+          src="/scroll-animation-keyframed.mp4"
           className="absolute inset-0 h-full w-full object-cover"
           preload="auto"
           muted
