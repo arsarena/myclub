@@ -30,7 +30,7 @@ const TEAM_MEMBERS = [
     id: 4,
     name: "Samatha",
     role: "Joint Secretary",
-    image: "https://static.wixstatic.com/media/c1ad4c_d9996f2ba1d14a7b84bab7da5dc7035a~mv2.jpeg",
+    image: "https://static.wixstatic.com/media/c1ad4c_f74d8f5701bf4988a48778f73f5f6edd~mv2.png",
     quote: "We engineer environments where art thrives."
   },
   {
