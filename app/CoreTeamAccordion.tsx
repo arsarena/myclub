@@ -37,7 +37,7 @@ const TEAM_MEMBERS = [
     id: 5,
     name: "Deevakar",
     role: "Vice President",
-    image: "https://static.wixstatic.com/media/c1ad4c_82848cfe3cc9439aa2524d307458999a~mv2.png",
+    image: "https://static.wixstatic.com/media/c1ad4c_87cdac64176d4a8886d24d83e8d924dd~mv2.png",
     quote: "Vision without execution is just hallucination."
   },
 ];
