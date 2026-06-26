@@ -44,7 +44,7 @@ function TiltCardWrapper({ children, transformOrigin, isMobile }: { children: (r
   const revealed = isMobile ? tapped : false;
 
   return (
-    <div 
+    <div
       style={{ transformOrigin, perspective: "1500px" }}
       className={`group inline-block cursor-crosshair transition-transform duration-500 ${!isMobile ? 'hover:scale-[1.15]' : ''}`}
       onMouseMove={handleMouseMove}
@@ -78,7 +78,7 @@ export default function ArsArenaScroll() {
   useEffect(() => {
     const checkLayout = () => setIsMobile(window.innerWidth < 1024);
     const checkTouch = () => setIsTouchDevice(
-      window.matchMedia("(pointer: coarse)").matches || 
+      window.matchMedia("(pointer: coarse)").matches ||
       ('ontouchstart' in window) ||
       navigator.maxTouchPoints > 0
     );
@@ -102,10 +102,7 @@ export default function ArsArenaScroll() {
     }
   }, [loadPercentage, videoReady]);
 
-  // CRITICAL: iOS/Android safety net for video loading
-  // Both platforms may ignore preload="auto" for large videos on cellular networks,
-  // causing onCanPlayThrough/onLoadedData to NEVER fire. The 21MB video is especially
-  // problematic. Without this timeout, the loading doors stay shut forever.
+  // CRITICAL: iOS/Android safety net — force-dismiss loading if video never reports ready
   useEffect(() => {
     if (loadPercentage >= 100 && !videoReady) {
       const safetyTimer = setTimeout(() => setVideoReady(true), 3000);
@@ -117,9 +114,49 @@ export default function ArsArenaScroll() {
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      try { video.load(); } catch (e) { /* iOS may throw in edge cases */ }
+      try { video.load(); } catch (e) { /* iOS may throw */ }
     }
   }, []);
+
+  // ═══════════════════════════════════════════════════════════════════
+  // HYBRID VIDEO STRATEGY
+  // ═══════════════════════════════════════════════════════════════════
+  // Mobile:  Autoplay at slow speed (scroll-driven seeking is BROKEN on
+  //          iOS Safari and Android Chrome — they buffer in chunks and
+  //          seeking to unbuffered positions freezes the video)
+  // Desktop: Scroll-driven currentTime seeking (reliable once cached)
+  // ═══════════════════════════════════════════════════════════════════
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isTouchDevice) {
+      // MOBILE PATH: ambient autoplay
+      video.playbackRate = 0.3;
+      video.loop = true;
+      video.muted = true;
+
+      const tryPlay = () => {
+        video.play().catch(() => {
+          // Autoplay blocked — start on first user interaction
+          const onInteract = () => {
+            video.play().catch(() => {});
+            document.removeEventListener('touchstart', onInteract);
+            document.removeEventListener('scroll', onInteract);
+          };
+          document.addEventListener('touchstart', onInteract, { once: true, passive: true });
+          document.addEventListener('scroll', onInteract, { once: true, passive: true });
+        });
+      };
+
+      if (video.readyState >= 2) {
+        tryPlay();
+      } else {
+        video.addEventListener('loadeddata', tryPlay, { once: true });
+      }
+    }
+    // DESKTOP PATH: video stays paused — scroll handler drives currentTime
+  }, [isTouchDevice]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -127,23 +164,22 @@ export default function ArsArenaScroll() {
   });
 
   // Spring-smoothed progress — used ONLY for card fade animations (not video)
-  // The spring provides the glassy, smooth card transitions without affecting video latency
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 200,
     damping: 50,
     restDelta: 0.0001
   });
 
-  // Drive video from RAW scroll progress — NOT the spring-smoothed version
-  // Lenis already smooths the scroll; adding spring on top causes 1-2 second lag
-  // that makes video scrubbing feel "swimmy" on ALL desktop platforms
+  // DESKTOP ONLY: Drive video currentTime from scroll position
+  // On touch devices this is completely skipped — mobile uses autoplay above
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isTouchDevice) return; // ← Mobile uses autoplay, NOT seeking
+
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
     const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
 
-    // Skip seeks smaller than ~1 frame (16ms) to prevent micro-jitter
     if (Math.abs(video.currentTime - targetTime) > 0.016) {
       video.currentTime = targetTime;
     }
@@ -151,7 +187,7 @@ export default function ArsArenaScroll() {
 
   // --- Scroll Timing Configuration (0.0 to 1.0) ---
   // Frame 95 out of 240 is exactly 40% scroll progress (95/239 = 0.397)
-  
+
 
   // Origins Card
   // To hit ezgif-frame-095.jpg exactly: it is index 94 in the array. 94 / 239 = 0.3933
@@ -173,41 +209,41 @@ export default function ArsArenaScroll() {
   // Welcome Card (0%)
   const welcomeFadeOutStart = 0.08;
   const welcomeFadeOutEnd = 0.15;
-  
+
   const opacity0 = useTransform(smoothProgress, [0, welcomeFadeOutStart, welcomeFadeOutEnd], [1, 1, 0]);
   const y0 = useTransform(smoothProgress, [0, welcomeFadeOutStart, welcomeFadeOutEnd], [0, 0, -100]);
   const pointerEvents0 = useTransform(smoothProgress, [0, welcomeFadeOutStart, welcomeFadeOutEnd], ["auto", "auto", "none"]);
 
   // Origins Card
-  const opacity30 = useTransform(smoothProgress, 
-    [0, originsFadeInStart, originsFadeInEnd, originsFadeOutStart, originsFadeOutEnd], 
+  const opacity30 = useTransform(smoothProgress,
+    [0, originsFadeInStart, originsFadeInEnd, originsFadeOutStart, originsFadeOutEnd],
     [0, 0, 1, 1, 0]
   );
   const y30 = useTransform(smoothProgress, [0, originsFadeInStart, originsFadeInEnd, originsFadeOutEnd], [50, 50, 0, -50]);
-  const pointerEvents30 = useTransform(smoothProgress, 
-    [0, originsFadeInStart, originsFadeInStart + 0.01, originsFadeOutEnd - 0.01, originsFadeOutEnd], 
+  const pointerEvents30 = useTransform(smoothProgress,
+    [0, originsFadeInStart, originsFadeInStart + 0.01, originsFadeOutEnd - 0.01, originsFadeOutEnd],
     ["none", "none", "auto", "auto", "none"]
   );
 
   // Campus Canvas Card
-  const opacity60 = useTransform(smoothProgress, 
-    [0, campusFadeInStart, campusFadeInEnd, campusFadeOutStart, campusFadeOutEnd], 
+  const opacity60 = useTransform(smoothProgress,
+    [0, campusFadeInStart, campusFadeInEnd, campusFadeOutStart, campusFadeOutEnd],
     [0, 0, 1, 1, 0]
   );
   const y60 = useTransform(smoothProgress, [0, campusFadeInStart, campusFadeInEnd, campusFadeOutEnd], [50, 50, 0, -50]);
-  const pointerEvents60 = useTransform(smoothProgress, 
-    [0, campusFadeInStart, campusFadeInStart + 0.01, campusFadeOutEnd - 0.01, campusFadeOutEnd], 
+  const pointerEvents60 = useTransform(smoothProgress,
+    [0, campusFadeInStart, campusFadeInStart + 0.01, campusFadeOutEnd - 0.01, campusFadeOutEnd],
     ["none", "none", "auto", "auto", "none"]
   );
 
   // More Than a Club Card
-  const opacity90 = useTransform(smoothProgress, 
-    [0, clubFadeInStart, clubFadeInEnd], 
+  const opacity90 = useTransform(smoothProgress,
+    [0, clubFadeInStart, clubFadeInEnd],
     [0, 0, 1]
   );
   const y90 = useTransform(smoothProgress, [0, clubFadeInStart, clubFadeInEnd], [50, 50, 0]);
-  const pointerEvents90 = useTransform(smoothProgress, 
-    [0, clubFadeInStart, clubFadeInStart + 0.01], 
+  const pointerEvents90 = useTransform(smoothProgress,
+    [0, clubFadeInStart, clubFadeInStart + 0.01],
     ["none", "none", "auto"]
   );
 
@@ -215,14 +251,14 @@ export default function ArsArenaScroll() {
     <div ref={containerRef} className="relative h-[400vh] bg-[#F5F2EB]">
       {/* Invisible anchor for the Header navigation. Dynamically tied to the originsFadeInEnd variable! (Scrollable distance is 300vh) */}
       <div id="origins" className="absolute" style={{ top: `${originsFadeInEnd * 300}vh` }} />
-      
+
       {/* Split-Door Theater Reveal (Option 7) */}
       <AnimatePresence>
         {!isLoaded && (
           <div className="fixed inset-0 z-[99999]">
-            
+
             {/* LEFT DOOR (Clips the left 50% of the screen) */}
-            <motion.div 
+            <motion.div
               className="absolute inset-0 bg-[#F5F2EB] flex flex-col items-center justify-center"
               style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
               // Aggressively slides left to open
@@ -230,13 +266,13 @@ export default function ArsArenaScroll() {
             >
               {/* Subtle watermark background */}
               <img src="https://static.wixstatic.com/media/c1ad4c_cb5350d89fce4d21a3cc2359f7c28e3d~mv2.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
-              
+
               {/* The Left Half of the Logo */}
               <img src="https://static.wixstatic.com/media/c1ad4c_c9131629f24a445ab5acb173ec2202dc~mv2.png" alt="Logo Left" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
             </motion.div>
 
             {/* RIGHT DOOR (Clips the right 50% of the screen) */}
-            <motion.div 
+            <motion.div
               className="absolute inset-0 bg-[#F5F2EB] flex flex-col items-center justify-center"
               style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}
               // Aggressively slides right to open
@@ -244,13 +280,13 @@ export default function ArsArenaScroll() {
             >
               {/* Subtle watermark background */}
               <img src="https://static.wixstatic.com/media/c1ad4c_cb5350d89fce4d21a3cc2359f7c28e3d~mv2.jpg" alt="bg" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-5 scale-105 translate-x-3" />
-              
+
               {/* The Right Half of the Logo */}
               <img src="https://static.wixstatic.com/media/c1ad4c_c9131629f24a445ab5acb173ec2202dc~mv2.png" alt="Logo Right" className="relative z-10 w-48 h-48 mob-m:w-64 mob-m:h-64 laptop:w-96 laptop:h-96 object-contain mix-blend-multiply" />
             </motion.div>
 
             {/* Center Lock / Glassmorphic Loading Dial */}
-            <motion.div 
+            <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center"
               // The lock bursts open and fades out before the doors slide
               exit={{ scale: 2, opacity: 0, filter: "blur(10px)", transition: { duration: 0.5, ease: "easeIn" } }}
@@ -264,35 +300,38 @@ export default function ArsArenaScroll() {
                 </div>
               </div>
             </motion.div>
-            
+
           </div>
         )}
       </AnimatePresence>
 
-      {/* Sticky Video Container — h-screen (100vh) for universal browser support */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F5F2EB]">
+      {/* Sticky Video Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
         <video
           ref={videoRef}
           src="/scroll-animation-keyframed.mp4"
           className="absolute inset-0 h-full w-full object-cover"
           preload="auto"
-          muted
-          playsInline
-          onCanPlayThrough={() => setVideoReady(true)}
-          onLoadedData={() => { if (!videoReady) setVideoReady(true); }}
+          muted={true}
+          autoPlay={false}
+          playsInline={true}
+          onPlay={() => {
+            if (videoRef.current) videoRef.current.pause();
+          }}
+          onLoadedData={() => setVideoReady(true)}
         />
 
         {/* Text Overlays */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          
+
           {/* 0% Scroll: Welcome to ARSARENA */}
-          <motion.div 
+          <motion.div
             style={{ opacity: opacity0, y: y0, pointerEvents: pointerEvents0 }}
             className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 desktop:left-32 large:left-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
-                <div 
+                <div
                   className={`w-[92vw] mob-m:w-[88vw] tablet:w-[60vw] laptop:w-[50vw] desktop:w-[600px] large:w-[700px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
@@ -301,12 +340,12 @@ export default function ArsArenaScroll() {
                   <div className={`absolute inset-0 transition-opacity duration-700 ease-out z-0 bg-black/40 pointer-events-none
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
-                    <img 
-                      src="https://static.wixstatic.com/media/c1ad4c_9a2277d327f847dd8b5e79d6e7b34954~mv2.jpg" 
-                      alt="ARSARENA Event" 
+                    <img
+                      src="https://static.wixstatic.com/media/c1ad4c_9a2277d327f847dd8b5e79d6e7b34954~mv2.jpg"
+                      alt="ARSARENA Event"
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
-                      `} 
+                      `}
                     />
                     <div className="absolute inset-0 bg-black/10" />
                   </div>
@@ -329,13 +368,13 @@ export default function ArsArenaScroll() {
           </motion.div>
 
           {/* Origins Card */}
-          <motion.div 
+          <motion.div
             style={{ opacity: opacity30, y: y30, pointerEvents: pointerEvents30 }}
             className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-auto tablet:right-12 laptop:right-24 desktop:right-32 large:right-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-end"
           >
             <TiltCardWrapper transformOrigin="right center" isMobile={isTouchDevice}>
               {(revealed) => (
-                <div 
+                <div
                   className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
@@ -344,12 +383,12 @@ export default function ArsArenaScroll() {
                   <div className={`absolute inset-0 transition-opacity duration-700 ease-out z-0 bg-black/40 pointer-events-none
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
-                    <img 
-                      src="https://static.wixstatic.com/media/c1ad4c_6252f613c07042f2a63cabeec4e9e814~mv2.jpg" 
-                      alt="Origins" 
+                    <img
+                      src="https://static.wixstatic.com/media/c1ad4c_6252f613c07042f2a63cabeec4e9e814~mv2.jpg"
+                      alt="Origins"
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
-                      `} 
+                      `}
                     />
                     <div className="absolute inset-0 bg-black/10" />
                   </div>
@@ -371,13 +410,13 @@ export default function ArsArenaScroll() {
           </motion.div>
 
           {/* Campus Canvas Card */}
-          <motion.div 
+          <motion.div
             style={{ opacity: opacity60, y: y60, pointerEvents: pointerEvents60 }}
             className="absolute left-1/2 -translate-x-1/2 tablet:translate-x-0 tablet:left-12 laptop:left-24 desktop:left-32 large:left-40 z-10 w-full tablet:px-0 tablet:w-auto flex justify-center tablet:justify-start"
           >
             <TiltCardWrapper transformOrigin="left center" isMobile={isTouchDevice}>
               {(revealed) => (
-                <div 
+                <div
                   className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-8 laptop:p-10 desktop:p-12 large:p-14 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
@@ -386,12 +425,12 @@ export default function ArsArenaScroll() {
                   <div className={`absolute inset-0 transition-opacity duration-700 ease-out z-0 bg-black/40 pointer-events-none
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
-                    <img 
-                      src="https://static.wixstatic.com/media/c1ad4c_68459f44ca3e431b9cabaff018c73109~mv2.jpg" 
-                      alt="Campus Canvas" 
+                    <img
+                      src="https://static.wixstatic.com/media/c1ad4c_68459f44ca3e431b9cabaff018c73109~mv2.jpg"
+                      alt="Campus Canvas"
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
-                      `} 
+                      `}
                     />
                     <div className="absolute inset-0 bg-black/10" />
                   </div>
@@ -413,13 +452,13 @@ export default function ArsArenaScroll() {
           </motion.div>
 
           {/* More Than a Club Card */}
-          <motion.div 
+          <motion.div
             style={{ opacity: opacity90, y: y90, pointerEvents: pointerEvents90 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full flex justify-center"
           >
             <TiltCardWrapper transformOrigin="center" isMobile={isTouchDevice}>
               {(revealed) => (
-                <div 
+                <div
                   className={`w-[92vw] mob-m:w-[88vw] tablet:w-[55vw] laptop:w-[45vw] desktop:w-[550px] large:w-[650px] p-5 mob-m:p-6 tablet:p-10 laptop:p-12 desktop:p-14 large:p-16 rounded-2xl mob-m:rounded-3xl backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center text-center
                     ${isTouchDevice ? 'bg-white/70 border border-white/50' : 'bg-white/20 border border-white/30'}
                   `}
@@ -428,12 +467,12 @@ export default function ArsArenaScroll() {
                   <div className={`absolute inset-0 transition-opacity duration-700 ease-out z-0 bg-black/40 pointer-events-none
                     ${revealed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
                   `}>
-                    <img 
-                      src="https://static.wixstatic.com/media/c1ad4c_6deaabfee6214a7d8d53e28251df4743~mv2.jpg" 
-                      alt="More Than a Club" 
+                    <img
+                      src="https://static.wixstatic.com/media/c1ad4c_6deaabfee6214a7d8d53e28251df4743~mv2.jpg"
+                      alt="More Than a Club"
                       className={`w-full h-full object-cover transition-transform duration-700 ease-out
                         ${revealed ? 'scale-100' : 'scale-110 group-hover:scale-100'}
-                      `} 
+                      `}
                     />
                     <div className="absolute inset-0 bg-black/10" />
                   </div>
