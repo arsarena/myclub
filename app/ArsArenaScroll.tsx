@@ -118,46 +118,6 @@ export default function ArsArenaScroll() {
     }
   }, []);
 
-  // ═══════════════════════════════════════════════════════════════════
-  // HYBRID VIDEO STRATEGY
-  // ═══════════════════════════════════════════════════════════════════
-  // Mobile:  Autoplay at slow speed (scroll-driven seeking is BROKEN on
-  //          iOS Safari and Android Chrome — they buffer in chunks and
-  //          seeking to unbuffered positions freezes the video)
-  // Desktop: Scroll-driven currentTime seeking (reliable once cached)
-  // ═══════════════════════════════════════════════════════════════════
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isTouchDevice) {
-      // MOBILE PATH: ambient autoplay
-      video.playbackRate = 0.3;
-      video.loop = true;
-      video.muted = true;
-
-      const tryPlay = () => {
-        video.play().catch(() => {
-          // Autoplay blocked — start on first user interaction
-          const onInteract = () => {
-            video.play().catch(() => {});
-            document.removeEventListener('touchstart', onInteract);
-            document.removeEventListener('scroll', onInteract);
-          };
-          document.addEventListener('touchstart', onInteract, { once: true, passive: true });
-          document.addEventListener('scroll', onInteract, { once: true, passive: true });
-        });
-      };
-
-      if (video.readyState >= 2) {
-        tryPlay();
-      } else {
-        video.addEventListener('loadeddata', tryPlay, { once: true });
-      }
-    }
-    // DESKTOP PATH: video stays paused — scroll handler drives currentTime
-  }, [isTouchDevice]);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -170,18 +130,22 @@ export default function ArsArenaScroll() {
     restDelta: 0.0001
   });
 
-  // DESKTOP ONLY: Drive video currentTime from scroll position
-  // On touch devices this is completely skipped — mobile uses autoplay above
+  // Drive video currentTime from scroll — ALL PLATFORMS
+  // Uses fastSeek() on Safari for smoother Mac trackpad experience
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (isTouchDevice) return; // ← Mobile uses autoplay, NOT seeking
-
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
     const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
 
     if (Math.abs(video.currentTime - targetTime) > 0.016) {
-      video.currentTime = targetTime;
+      // Safari supports fastSeek() which is optimized for rapid seeking
+      // With a keyframed video (-g 1), fastSeek lands exactly on target
+      if ('fastSeek' in video && typeof video.fastSeek === 'function') {
+        video.fastSeek(targetTime);
+      } else {
+        video.currentTime = targetTime;
+      }
     }
   });
 
@@ -312,13 +276,10 @@ export default function ArsArenaScroll() {
           src="/scroll-animation-keyframed.mp4"
           className="absolute inset-0 h-full w-full object-cover"
           preload="auto"
-          muted={true}
-          autoPlay={false}
-          playsInline={true}
-          onPlay={() => {
-            if (videoRef.current) videoRef.current.pause();
-          }}
-          onLoadedData={() => setVideoReady(true)}
+          muted
+          playsInline
+          onCanPlayThrough={() => setVideoReady(true)}
+          onLoadedData={() => { if (!videoReady) setVideoReady(true); }}
         />
 
         {/* Text Overlays */}
