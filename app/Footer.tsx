@@ -41,7 +41,7 @@ export default function Footer() {
       id="join"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-end overflow-hidden pb-6 mob-m:pb-8 tablet:pb-10 pt-16 mob-m:pt-20 tablet:pt-32 desktop:pt-40 border-t border-white/5"
+      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-center overflow-hidden pb-6 mob-m:pb-8 tablet:pb-10 pt-16 mob-m:pt-20 tablet:pt-32 desktop:pt-40 border-t border-white/5"
     >
        {/* The Massive Subtext Watermark */}
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] overflow-hidden select-none">
