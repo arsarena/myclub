@@ -17,19 +17,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
                             ('ontouchstart' in window) ||
                             navigator.maxTouchPoints > 0;
 
-      // Detect Mac — trackpads send continuous momentum events that fight with
-      // long Lenis durations, making scroll feel laggy/swimmy
-      const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
-
-      // Initialize Lenis with platform-appropriate parameters:
-      // - Mobile: light/fast (don't fight native touch inertia)
-      // - Mac desktop: shorter duration (trackpad momentum + long Lenis = double lag)
-      // - Windows desktop: longer duration (mouse wheel benefits from smooth interpolation)
+      // Initialize Lenis with device-appropriate parameters
+      // On mobile: lighter, faster settings that don't fight native touch inertia
+      // On desktop: the luxurious heavy feel
       const lenis = new Lenis({
-        duration: isTouchDevice ? 1.0 : isMac ? 0.8 : 1.6,
+        duration: isTouchDevice ? 1.2 : 2.0,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        wheelMultiplier: isTouchDevice ? 1.0 : isMac ? 1.2 : 0.8,
+        wheelMultiplier: isTouchDevice ? 1.0 : 0.8,
         touchMultiplier: isTouchDevice ? 1.5 : 2,
       });
 

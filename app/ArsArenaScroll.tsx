@@ -130,22 +130,21 @@ export default function ArsArenaScroll() {
     restDelta: 0.0001
   });
 
-  // Drive video currentTime from scroll — ALL PLATFORMS
-  // Uses fastSeek() on Safari for smoother Mac trackpad experience
+  // Universal scroll-driven video with requestAnimationFrame for Mac Safari smoothness
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
     const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
 
+    // Optimize for Mac/iOS by using requestAnimationFrame to update currentTime
+    // This prevents main thread blockage and jerky rendering during scroll
     if (Math.abs(video.currentTime - targetTime) > 0.016) {
-      // Safari supports fastSeek() which is optimized for rapid seeking
-      // With a keyframed video (-g 1), fastSeek lands exactly on target
-      if ('fastSeek' in video && typeof video.fastSeek === 'function') {
-        video.fastSeek(targetTime);
-      } else {
-        video.currentTime = targetTime;
-      }
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = targetTime;
+        }
+      });
     }
   });
 
