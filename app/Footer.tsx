@@ -84,9 +84,8 @@ export default function Footer() {
             </p>
 
             <div className="group relative cursor-pointer w-full mb-6 mob-m:mb-8 flex flex-col items-center justify-center">
-               <h2 className="font-bebas w-full text-center flex flex-col md:flex-row justify-center items-center md:gap-[2vw] text-[20vw] mob-m:text-[18vw] tablet:text-[14vw] laptop:text-[12vw] desktop:text-[11vw] large:text-[9vw] leading-[0.85] text-white tracking-tight transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#D4A373] group-hover:via-white group-hover:to-[#D4A373] group-hover:scale-[1.02]">
-                 <span>JOIN</span>
-                 <span>ARSARENA</span>
+               <h2 className="font-bebas w-full text-center text-[22vw] mob-m:text-[19vw] tablet:text-[15vw] laptop:text-[12vw] desktop:text-[11vw] large:text-[9vw] leading-[0.9] text-white tracking-tight transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#D4A373] group-hover:via-white group-hover:to-[#D4A373] group-hover:scale-[1.02]">
+                 JOIN ARSARENA
                </h2>
                {/* Underline pulse on hover */}
                <div className="w-0 h-[3px] mob-m:h-[4px] bg-[#D4A373] mx-auto mt-3 mob-m:mt-4 transition-all duration-700 ease-out group-hover:w-1/2 opacity-50" />
