@@ -41,7 +41,7 @@ export default function Footer() {
       id="join"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-end overflow-hidden pb-6 mob-m:pb-8 tablet:pb-10 pt-16 mob-m:pt-20 tablet:pt-32 desktop:pt-40 border-t border-white/5"
+      className="relative min-h-[80vh] mob-m:min-h-[85vh] tablet:min-h-[90vh] bg-[#050505] flex flex-col justify-center overflow-hidden pt-16 mob-m:pt-20 tablet:pt-32 desktop:pt-40 border-t border-white/5"
     >
        {/* The Massive Subtext Watermark */}
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.02] overflow-hidden select-none">
@@ -113,25 +113,25 @@ export default function Footer() {
 
 
 
-          {/* Legal / Copyright Footer */}
-          <div className="w-full flex flex-row justify-between items-center gap-2 mob-m:gap-3 mt-10 mob-m:mt-12 tablet:mt-16 text-white/30 text-[0.5625rem] mob-m:text-[0.625rem] tablet:text-xs laptop:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em] px-1 tablet:px-2">
-             <p>© {new Date().getFullYear()} ARSARENA</p>
-             <motion.a 
-               href="https://www.instagram.com/arsarena_spec?igsh=MWZ6b29lNHEwN2hraA=="
-               target="_blank"
-               rel="noopener noreferrer"
-               whileHover={{ color: "#D4A373" }}
-               className="transition-colors duration-300 cursor-pointer w-11 h-11 flex items-center justify-center -mr-2"
-             >
-               <span className="sr-only">Instagram</span>
-               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-               </svg>
-             </motion.a>
-          </div>
+       </div>
 
+       {/* Legal / Copyright Footer */}
+       <div className="absolute bottom-6 mob-m:bottom-8 tablet:bottom-10 left-0 w-full flex flex-row justify-between items-center gap-2 mob-m:gap-3 text-white/30 text-[0.5625rem] mob-m:text-[0.625rem] tablet:text-xs laptop:text-sm font-inter uppercase tracking-[0.15em] mob-m:tracking-[0.2em] px-4 mob-m:px-6 tablet:px-12 laptop:px-16 desktop:px-24 large:px-32">
+          <p>© {new Date().getFullYear()} ARSARENA</p>
+          <motion.a 
+            href="https://www.instagram.com/arsarena_spec?igsh=MWZ6b29lNHEwN2hraA=="
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ color: "#D4A373" }}
+            className="transition-colors duration-300 cursor-pointer w-11 h-11 flex items-center justify-center -mr-2"
+          >
+            <span className="sr-only">Instagram</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </motion.a>
        </div>
     </footer>
 
