@@ -130,21 +130,17 @@ export default function ArsArenaScroll() {
     restDelta: 0.0001
   });
 
-  // Universal scroll-driven video with requestAnimationFrame for Mac Safari smoothness
+  // Scroll-driven video on ALL platforms (mobile + desktop)
+  // Works because scroll-animation-keyframed.mp4 has EVERY frame as a keyframe (-g 1)
+  // so the browser can seek to any position instantly without decoding from a distant I-frame
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
     const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
 
-    // Optimize for Mac/iOS by using requestAnimationFrame to update currentTime
-    // This prevents main thread blockage and jerky rendering during scroll
     if (Math.abs(video.currentTime - targetTime) > 0.016) {
-      requestAnimationFrame(() => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = targetTime;
-        }
-      });
+      video.currentTime = targetTime;
     }
   });
 
