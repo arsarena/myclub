@@ -134,9 +134,9 @@ export default function RewindScroll() {
 
           {/* Desktop hover hint */}
           {!isMobile && !shouldShowInfo && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden laptop:flex flex-row items-center gap-3 pointer-events-none bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-6 py-3 rounded-full shadow-2xl">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden laptop:flex flex-row items-center gap-3 pointer-events-none bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-4 py-2 rounded-full shadow-2xl">
               <span className="w-2.5 h-2.5 rounded-full bg-[#D4A373] animate-pulse" />
-              <span className="font-inter font-bold text-[#D4A373] text-sm tracking-[0.2em] uppercase drop-shadow-md">Place cursor on card to know details</span>
+              <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Place cursor on card to know details</span>
             </div>
           )}
 
