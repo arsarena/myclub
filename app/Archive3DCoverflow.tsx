@@ -108,7 +108,7 @@ export default function Archive3DCoverflow() {
             ARCHIVE
           </h2>
           <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">
-            {isTouchDevice ? "Tap to explore" : "Move cursor to explore"}
+            A Collection of Memories
           </p>
         </div>
 
@@ -224,7 +224,7 @@ export default function Archive3DCoverflow() {
           {/* Desktop Instruction */}
           <div className="absolute bottom-12 z-40 hidden xl:flex flex-col items-center pointer-events-none">
             <div className="bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-4 py-2 rounded-full shadow-2xl">
-              <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Move cursor left or right</span>
+              <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Move cursor to explore</span>
             </div>
           </div>
         
