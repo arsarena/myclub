@@ -456,16 +456,16 @@ export default function ArsArenaScroll() {
         <motion.div 
           className="absolute bottom-12 right-12 z-30 hidden laptop:flex flex-col items-center gap-3 pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 0.6 : 0 }}
+          animate={{ opacity: isLoaded ? 0.9 : 0 }}
           transition={{ delay: 1.5, duration: 1 }}
         >
-          <span className="font-inter text-white text-[10px] tracking-[0.3em] uppercase" style={{ writingMode: 'vertical-rl' }}>Scroll Down</span>
+          <span className="font-inter text-[#D4A373] font-semibold text-xs tracking-[0.3em] uppercase drop-shadow-md" style={{ writingMode: 'vertical-rl' }}>Scroll Down</span>
           <motion.div
-            className="w-[1px] bg-white origin-top"
+            className="w-[2px] bg-[#D4A373] origin-top"
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
             transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-            style={{ height: '40px' }}
+            style={{ height: '50px' }}
           />
         </motion.div>
 
