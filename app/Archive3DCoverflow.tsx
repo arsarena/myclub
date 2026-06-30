@@ -108,7 +108,7 @@ export default function Archive3DCoverflow() {
             ARCHIVE
           </h2>
           <p className="font-inter text-[#D4A373] text-[10px] mob-m:text-xs tablet:text-sm tracking-[0.3em] tablet:tracking-[0.4em] uppercase font-bold drop-shadow-md">
-            A Collection of Memories
+            A Glimpse into the Past
           </p>
         </div>
 
