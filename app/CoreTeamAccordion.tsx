@@ -167,7 +167,7 @@ export default function CoreTeamAccordion() {
       {/* Desktop Instruction */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 hidden laptop:flex flex-col items-center pointer-events-none">
         <div className="bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-4 py-2 rounded-full shadow-2xl">
-          <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Hover to expand</span>
+          <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Move cursor to expand</span>
         </div>
       </div>
     </section>
