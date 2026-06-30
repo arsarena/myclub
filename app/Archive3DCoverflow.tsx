@@ -220,6 +220,11 @@ export default function Archive3DCoverflow() {
             <div className="w-11 h-11 mob-m:w-12 mob-m:h-12 tablet:w-14 tablet:h-14 pointer-events-none" />
           )}
           </div>
+          
+          {/* Desktop Instruction */}
+          <div className="absolute bottom-12 z-40 hidden xl:flex flex-col items-center pointer-events-none opacity-40">
+            <span className="font-inter text-white text-xs tracking-[0.2em] uppercase">Move cursor to explore</span>
+          </div>
         
     </section>
   );

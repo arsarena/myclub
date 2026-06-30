@@ -451,6 +451,24 @@ export default function ArsArenaScroll() {
           </motion.div>
 
         </div>
+
+        {/* Scroll Down Indicator (Desktop Only) */}
+        <motion.div 
+          className="absolute bottom-12 right-12 z-30 hidden laptop:flex flex-col items-center gap-3 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoaded ? 0.6 : 0 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <span className="font-inter text-white text-[10px] tracking-[0.3em] uppercase" style={{ writingMode: 'vertical-rl' }}>Scroll Down</span>
+          <motion.div
+            className="w-[1px] bg-white origin-top"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            style={{ height: '40px' }}
+          />
+        </motion.div>
+
       </div>
     </div>
   );
