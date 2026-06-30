@@ -454,12 +454,14 @@ export default function ArsArenaScroll() {
 
         {/* Scroll Down Indicator (Desktop Only) */}
         <motion.div 
-          className="absolute bottom-12 right-12 z-30 hidden laptop:flex flex-col items-center gap-3 pointer-events-none"
+          className="absolute bottom-12 right-12 z-30 hidden laptop:flex flex-col items-center gap-4 pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 0.9 : 0 }}
+          animate={{ opacity: isLoaded ? 1 : 0 }}
           transition={{ delay: 1.5, duration: 1 }}
         >
-          <span className="font-inter text-[#D4A373] font-semibold text-xs tracking-[0.3em] uppercase drop-shadow-md" style={{ writingMode: 'vertical-rl' }}>Scroll Down</span>
+          <div className="bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-2.5 py-6 rounded-full shadow-2xl flex items-center justify-center">
+            <span className="font-inter text-[#D4A373] font-bold text-xs tracking-[0.3em] uppercase drop-shadow-md" style={{ writingMode: 'vertical-rl' }}>Scroll Down</span>
+          </div>
           <motion.div
             className="w-[2px] bg-[#D4A373] origin-top"
             initial={{ scaleY: 0 }}

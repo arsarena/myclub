@@ -222,8 +222,10 @@ export default function Archive3DCoverflow() {
           </div>
           
           {/* Desktop Instruction */}
-          <div className="absolute bottom-12 z-40 hidden xl:flex flex-col items-center pointer-events-none drop-shadow-lg">
-            <span className="font-inter font-semibold text-[#D4A373] text-sm tracking-[0.2em] uppercase">Move cursor to explore</span>
+          <div className="absolute bottom-12 z-40 hidden xl:flex flex-col items-center pointer-events-none">
+            <div className="bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-6 py-3 rounded-full shadow-2xl">
+              <span className="font-inter font-bold text-[#D4A373] text-sm tracking-[0.2em] uppercase drop-shadow-md">Move cursor to explore</span>
+            </div>
           </div>
         
     </section>
