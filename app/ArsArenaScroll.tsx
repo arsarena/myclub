@@ -452,9 +452,9 @@ export default function ArsArenaScroll() {
 
         </div>
 
-        {/* Scroll Down Indicator (Desktop Only) */}
+        {/* Scroll Down Indicator */}
         <motion.div 
-          className="absolute bottom-12 right-12 z-30 hidden laptop:flex flex-col items-center gap-4 pointer-events-none"
+          className="absolute bottom-6 mob-m:bottom-8 tablet:bottom-12 right-3 mob-m:right-6 tablet:right-12 z-30 flex flex-col items-center gap-3 tablet:gap-4 pointer-events-none scale-75 mob-m:scale-90 tablet:scale-100 origin-bottom-right"
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
           transition={{ delay: 1.5, duration: 1 }}
