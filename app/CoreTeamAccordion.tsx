@@ -164,10 +164,12 @@ export default function CoreTeamAccordion() {
         })}
       </div>
 
-      {/* Desktop Instruction */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 hidden laptop:flex flex-col items-center pointer-events-none">
+      {/* Interaction Instruction */}
+      <div className="absolute bottom-6 mob-m:bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-none scale-75 mob-m:scale-90 tablet:scale-100">
         <div className="bg-black/70 backdrop-blur-md border border-[#D4A373]/30 px-4 py-2 rounded-full shadow-2xl">
-          <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">Hover to expand</span>
+          <span className="font-inter font-bold text-[#D4A373] text-[10px] tracking-[0.2em] uppercase drop-shadow-md">
+            {isTouchDevice ? "Tap to expand" : "Hover to expand"}
+          </span>
         </div>
       </div>
     </section>
