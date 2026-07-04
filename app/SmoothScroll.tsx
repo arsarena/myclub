@@ -16,16 +16,19 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       const isTouchDevice = window.matchMedia("(pointer: coarse)").matches || 
                             ('ontouchstart' in window) ||
                             navigator.maxTouchPoints > 0;
+      const isAndroid = /Android/i.test(navigator.userAgent);
 
       // Initialize Lenis with device-appropriate parameters
-      // On mobile: lighter, faster settings that don't fight native touch inertia
-      // On desktop: the luxurious heavy feel
+      // Android: short duration (0.4s) — long interpolation generates too many
+      // intermediate positions that overwhelm Android's video decoder during scroll
+      // iOS: 1.2s works great — iOS decoder handles 60 seeks/sec
+      // Desktop: 2.0s for luxurious heavy feel
       const lenis = new Lenis({
-        duration: isTouchDevice ? 1.2 : 2.0,
+        duration: isAndroid ? 0.4 : (isTouchDevice ? 1.2 : 2.0),
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
         wheelMultiplier: isTouchDevice ? 1.0 : 0.8,
-        touchMultiplier: isTouchDevice ? 1.5 : 2,
+        touchMultiplier: isAndroid ? 2.0 : (isTouchDevice ? 1.5 : 2),
       });
 
       function raf(time: number) {
