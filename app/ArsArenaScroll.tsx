@@ -74,6 +74,8 @@ export default function ArsArenaScroll() {
   const [loadPercentage, setLoadPercentage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
+  const lastSeekRef = useRef(0);
 
   useEffect(() => {
     const checkLayout = () => setIsMobile(window.innerWidth < 1024);
@@ -84,6 +86,7 @@ export default function ArsArenaScroll() {
     );
     checkLayout();
     checkTouch();
+    setIsAndroid(/Android/i.test(navigator.userAgent));
     window.addEventListener("resize", checkLayout);
     return () => window.removeEventListener("resize", checkLayout);
   }, []);
@@ -130,17 +133,30 @@ export default function ArsArenaScroll() {
     restDelta: 0.0001
   });
 
-  // Scroll-driven video on ALL platforms (mobile + desktop)
-  // Works because scroll-animation-keyframed.mp4 has EVERY frame as a keyframe (-g 1)
-  // so the browser can seek to any position instantly without decoding from a distant I-frame
+  // Scroll-driven video on ALL platforms
+  // Android fix: throttle to ~25fps and use fastSeek() — Android Chrome's decoder
+  // can't handle 60 seeks/sec and stutters. iOS/Mac/Windows handle 60fps fine.
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const video = videoRef.current;
     if (!video || !video.duration || isNaN(video.duration)) return;
 
+    // Android: throttle seeks to ~25fps (40ms intervals)
+    // Android Chrome queues seeks faster than its decoder can process them → stutter
+    if (isAndroid) {
+      const now = performance.now();
+      if (now - lastSeekRef.current < 40) return;
+      lastSeekRef.current = now;
+    }
+
     const targetTime = Math.max(0, Math.min(latest * video.duration, video.duration - 0.001));
 
     if (Math.abs(video.currentTime - targetTime) > 0.016) {
-      video.currentTime = targetTime;
+      // fastSeek() is an optimized seeking path — no precision loss on keyframed video
+      if (isAndroid && typeof video.fastSeek === 'function') {
+        video.fastSeek(targetTime);
+      } else {
+        video.currentTime = targetTime;
+      }
     }
   });
 
